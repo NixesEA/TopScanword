@@ -29,6 +29,8 @@
         app:cornerRadius="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:fontFamily="sans-serif-medium"
         android:text="Играть"/>
 
 </android.support.constraint.ConstraintLayout>

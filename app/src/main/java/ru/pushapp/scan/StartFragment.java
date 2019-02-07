@@ -24,7 +24,6 @@ public class StartFragment extends Fragment implements View.OnClickListener {
         play = view.findViewById(R.id.play_btn);
         play.setOnClickListener(this);
 
-
         return view;
     }
 

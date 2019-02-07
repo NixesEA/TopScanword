@@ -13,7 +13,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:title="Scan"
+        app:title="Уровни"
         app:titleTextColor="@color/white" />
 
     <android.support.v7.widget.RecyclerView

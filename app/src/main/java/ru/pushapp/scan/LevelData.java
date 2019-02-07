@@ -7,11 +7,15 @@ public class LevelData {
     int progress;
     boolean unblocked;
 
-    LevelData(String title, String description, int progress, boolean unblocked){
+    int res;
+
+    LevelData(String title, String description, int progress, boolean unblocked, int res){
         this.title = title;
         this.description = description;
         this.progress = progress;
         this.unblocked = unblocked;
+
+        this.res = res;
     }
 
     public boolean isUnblocked() {
@@ -28,5 +32,9 @@ public class LevelData {
 
     public int getProgress() {
         return progress;
+    }
+
+    public int getScene() {
+        return res;
     }
 }
