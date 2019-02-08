@@ -18,5 +18,23 @@
         android:id="@+id/levelFragment"
         android:name="ru.pushapp.scan.LevelFragment"
         android:label="lvl_fragment"
-        tools:layout="@layout/lvl_fragment" />
+        tools:layout="@layout/lvl_fragment" >
+        <action
+            android:id="@+id/action_levelFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/winFragment"
+        android:name="ru.pushapp.scan.WinFragment"
+        android:label="win_fragment"
+        tools:layout="@layout/win_fragment" />
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="ru.pushapp.scan.GameFragment"
+        android:label="game_fragment"
+        tools:layout="@layout/game_fragment" >
+        <action
+            android:id="@+id/action_gameFragment_to_winFragment"
+            app:destination="@id/winFragment" />
+    </fragment>
 </navigation>

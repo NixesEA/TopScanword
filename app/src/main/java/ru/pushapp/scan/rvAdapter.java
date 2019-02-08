@@ -44,7 +44,7 @@ public class rvAdapter extends RecyclerView.Adapter<rvAdapter.rvAdapterHolder> {
             int res = list_items.get(getAdapterPosition()).getScene();
 
             //todo переход на экран с нужным уровнем
-            Navigation.findNavController(view).navigate(R.id.action_startFragment_to_levelFragment);
+            Navigation.findNavController(view).navigate(R.id.action_levelFragment_to_gameFragment);
         }
     }
 

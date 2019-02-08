@@ -7,7 +7,7 @@ public class LevelData {
     int progress;
     boolean unblocked;
 
-    int res;
+    int res;//content current level
 
     LevelData(String title, String description, int progress, boolean unblocked, int res){
         this.title = title;
