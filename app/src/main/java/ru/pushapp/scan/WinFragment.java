@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.navigation.Navigation;
+
 public class WinFragment extends Fragment implements View.OnClickListener {
 
     Button nextBtn;
@@ -33,10 +35,11 @@ public class WinFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()){
             case R.id.next_lvl_btn:{
 
+                //todo
                 break;
             }
             case R.id.all_lvl_btn:{
-
+                Navigation.findNavController(view).popBackStack(R.id.levelFragment,false);
                 break;
             }
         }

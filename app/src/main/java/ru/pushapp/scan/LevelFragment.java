@@ -49,6 +49,10 @@ public class LevelFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     private ArrayList<LevelData> getArrayList() {
         ArrayList<LevelData> arrayList = new ArrayList<>();
@@ -62,7 +66,6 @@ public class LevelFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-
         getActivity().onBackPressed();
     }
 }

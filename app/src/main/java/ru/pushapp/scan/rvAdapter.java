@@ -41,13 +41,11 @@ public class rvAdapter extends RecyclerView.Adapter<rvAdapter.rvAdapterHolder> {
 
         @Override
         public void onClick(View view) {
-            int res = list_items.get(getAdapterPosition()).getScene();
-
             //todo переход на экран с нужным уровнем
-            Navigation.findNavController(view).navigate(R.id.action_levelFragment_to_gameFragment);
+//            Navigation.findNavController(view).navigate(R.id.action_levelFragment_to_gameFragment);
+            Navigation.findNavController(view).navigate(R.id.action_levelFragment_to_gameFragment2);
         }
     }
-
 
     private LayoutInflater inflater;
     private static ArrayList<LevelData> list_items;
@@ -70,7 +68,6 @@ public class rvAdapter extends RecyclerView.Adapter<rvAdapter.rvAdapterHolder> {
         String description = list_items.get(position).getDescription();
         int progress = list_items.get(position).getProgress();
         String progressTV = progress + "%";
-
 
         holder.title.setText(title);
         holder.description.setText(description);

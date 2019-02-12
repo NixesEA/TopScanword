@@ -9,4 +9,5 @@
     <color name="white">#fff</color>
     <color name="black">#333333</color>
     <color name="enableButton">#ffc052</color>
+    <color name="lightGreen">#B504A225</color>
 </resources>
