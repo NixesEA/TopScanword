@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/startFragment"
-        android:name="ru.pushapp.scan.StartFragment"
+        android:name="ru.pushapp.scan.Fragments.StartFragment"
         android:label="start_fragment"
         tools:layout="@layout/start_fragment" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/levelFragment"
-        android:name="ru.pushapp.scan.LevelFragment"
+        android:name="ru.pushapp.scan.Fragments.LevelFragment"
         android:label="lvl_fragment"
         tools:layout="@layout/lvl_fragment" >
         <action
@@ -28,12 +28,12 @@
     </fragment>
     <fragment
         android:id="@+id/winFragment"
-        android:name="ru.pushapp.scan.WinFragment"
+        android:name="ru.pushapp.scan.Fragments.WinFragment"
         android:label="win_fragment"
         tools:layout="@layout/win_fragment" />
     <fragment
         android:id="@+id/gameFragment"
-        android:name="ru.pushapp.scan.GameFragment"
+        android:name="ru.pushapp.scan.Fragments.GameFragment"
         android:label="game_fragment"
         tools:layout="@layout/game_fragment" >
         <action
@@ -42,6 +42,6 @@
     </fragment>
     <fragment
         android:id="@+id/gameFragment2"
-        android:name="ru.pushapp.scan.GameFragment"
+        android:name="ru.pushapp.scan.Fragments.GameFragment"
         android:label="GameFragment" />
 </navigation>

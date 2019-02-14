@@ -1,4 +1,4 @@
-package ru.pushapp.scan;
+package ru.pushapp.scan.Adapters;
 
 public class LevelData {
 
@@ -9,7 +9,7 @@ public class LevelData {
 
     int res;//content current level
 
-    LevelData(String title, String description, int progress, boolean unblocked, int res){
+    public LevelData(String title, String description, int progress, boolean unblocked, int res){
         this.title = title;
         this.description = description;
         this.progress = progress;

@@ -1,4 +1,4 @@
-package ru.pushapp.scan;
+package ru.pushapp.scan.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -14,8 +14,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import androidx.navigation.Navigation;
+import ru.pushapp.scan.R;
 
-public class rvAdapter extends RecyclerView.Adapter<rvAdapter.rvAdapterHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.rvAdapterHolder> {
 
     class rvAdapterHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -50,7 +51,7 @@ public class rvAdapter extends RecyclerView.Adapter<rvAdapter.rvAdapterHolder> {
     private LayoutInflater inflater;
     private static ArrayList<LevelData> list_items;
 
-    public rvAdapter(Context context, ArrayList<LevelData> items) {
+    public RecyclerAdapter(Context context, ArrayList<LevelData> items) {
         this.list_items = items;
 
         inflater = LayoutInflater.from(context);

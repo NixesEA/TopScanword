@@ -1,4 +1,4 @@
-package ru.pushapp.scan;
+package ru.pushapp.scan.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.navigation.Navigation;
+import ru.pushapp.scan.R;
 
 public class WinFragment extends Fragment implements View.OnClickListener {
 

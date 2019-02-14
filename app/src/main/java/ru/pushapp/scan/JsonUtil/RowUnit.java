@@ -1,4 +1,4 @@
-package ru.pushapp.scan;
+package ru.pushapp.scan.JsonUtil;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -6,5 +6,5 @@ import java.util.ArrayList;
 
 public class RowUnit {
     @SerializedName("row")
-    ArrayList<CellUnit> cellsInRow = new ArrayList<>();
+    public ArrayList<CellUnit> cellsInRow = new ArrayList<>();
 }

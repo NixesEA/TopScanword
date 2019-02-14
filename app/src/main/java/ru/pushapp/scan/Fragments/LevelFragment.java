@@ -1,4 +1,4 @@
-package ru.pushapp.scan;
+package ru.pushapp.scan.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+
+import ru.pushapp.scan.Adapters.LevelData;
+import ru.pushapp.scan.R;
+import ru.pushapp.scan.Adapters.RecyclerAdapter;
 
 public class LevelFragment extends Fragment implements View.OnClickListener {
 
@@ -40,7 +44,7 @@ public class LevelFragment extends Fragment implements View.OnClickListener {
 
         ArrayList<LevelData> leaderList = getArrayList();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        rvAdapter adapter = new rvAdapter(getContext(), leaderList);
+        RecyclerAdapter adapter = new RecyclerAdapter(getContext(), leaderList);
 
         level_rv = view.findViewById(R.id.level_rv);
         level_rv.setLayoutManager(linearLayoutManager);

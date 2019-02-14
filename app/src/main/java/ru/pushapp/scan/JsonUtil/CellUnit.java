@@ -1,4 +1,4 @@
-package ru.pushapp.scan;
+package ru.pushapp.scan.JsonUtil;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,4 @@
-package ru.pushapp.scan;
+package ru.pushapp.scan.Adapters;
 
 public class GridItem {
 
