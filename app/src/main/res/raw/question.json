@@ -6,10 +6,6 @@
         "question": "... Терешкова",
         "way": null
       },{
-        "letter": null,
-        "question": "... Терешкова",
-        "way": null
-      },{
         "letter": "Д",
         "question": null,
         "way": null
@@ -31,7 +27,7 @@
         "way": null
       },{
         "letter": null,
-        "question": "Информац. телепередача",
+        "question": "Информ. телепередача",
         "way": null
       },{
         "letter": "А",
@@ -46,51 +42,680 @@
     {
       "row":[
         {
-          "letter": "d",
+          "letter": "В",
+          "question": null,
+          "way": null
+        },{
+          "letter": "А",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Е",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Т",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "А",
+          "question": null,
+          "way": null
+        }
+      ]},
+    {
+      "row":[
+        {
+          "letter": null,
+          "question": "Герда и ...",
+          "way": null
+        },{
+          "letter": "Т",
           "question": null,
           "way": null
         },{
           "letter": null,
-          "question": "First Question",
+          "question": "Троя",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
           "way": null
         },{
           "letter": null,
-          "question": "Second Question",
+          "question": "Местоимение 3 лица",
+          "way": null
+        },{
+          "letter": "О",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "... Фрейндлих",
+          "way": null
+        },{
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Костяк",
           "way": null
         }
       ]},
     {
       "row":[
         {
-          "letter": "d",
-          "question": "Супер товар",
-          "way": 1
+          "letter": "К",
+          "question": null,
+          "way": null
         },{
-          "letter": "d",
-          "question": "Супер товар",
-          "way": 1
+          "letter": "А",
+          "question": null,
+          "way": null
         },{
-          "letter": "d",
-          "question": "Супер товар",
-          "way": 1
+          "letter": "Й",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Штат в США",
+          "way": null
+        },{
+          "letter": "О",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Г",
+          "question": null,
+          "way": null
+        },{
+          "letter": "А",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Й",
+          "question": null,
+          "way": null
+        },{
+          "letter": "О",
+          "question": null,
+          "way": null
         }
       ]},
     {
       "row":[
         {
-          "letter": "d",
-          "question": "Супер товар",
-          "way": 1
+          "letter": "Р",
+          "question": null,
+          "way": null
         },{
-          "letter": "d",
-          "question": "Супер товар",
-          "way": 1
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
         },{
-          "letter": "d",
-          "question": "Супер товар",
-          "way": 1
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+
+
+
+
+
+
+
+
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
+        }
+      ]},{
+      "row":[
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Финансовый ...",
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Крупная река в Африке",
+          "way": null
+        },{
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },{
+          "letter": "И",
+          "question": null,
+          "way": null
+        },{
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },{
+          "letter": null,
+          "question": "Род",
+          "way": null
+        },{
+          "letter": "С",
+          "question": null,
+          "way": null
         }
       ]}
+
+
 
   ]
 }
