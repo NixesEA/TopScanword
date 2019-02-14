@@ -20,6 +20,7 @@ import ru.pushapp.scan.JsonUtil.RowUnit;
 
 
 public class CustomGameTable extends View {
+    float GRID_BORDER_WIDTH = 3;
     float CELL_SIZE;
     float WIDTH_SCREEN;
     float HEIGHT_SCREEN;
@@ -28,10 +29,14 @@ public class CustomGameTable extends View {
     private float mScaleFactor = 1.f;
 
     ArrayList<RowUnit> items;
+    Unit[][] unit = new Unit[18][9];
 
-    Paint paint = new Paint();
-    TextPaint textPaint = new TextPaint();
     Canvas localCanvas = null;
+    Paint linePaint = new Paint();
+    Paint letterCellPaint = new Paint();
+    Paint selectedCellPaint = new Paint();
+    Paint questionBackgroundPaint = new Paint();
+    TextPaint textPaint = new TextPaint();
 
 
     float startMoveX = 0f;
@@ -46,6 +51,9 @@ public class CustomGameTable extends View {
     float lengthX = 0f;
     float lengthY = 0f;
 
+    int selectedCellX = 0;
+    int selectedCellY = 0;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mScaleDetector.onTouchEvent(event);
@@ -54,6 +62,10 @@ public class CustomGameTable extends View {
             case MotionEvent.ACTION_DOWN: {
                 startMoveX = event.getRawX();
                 startMoveY = event.getRawY();
+
+                selectedCellX = (int) (event.getRawX() / CELL_SIZE);
+                selectedCellY = (int) (event.getRawY() / CELL_SIZE);
+
                 break;
             }
 
@@ -70,7 +82,7 @@ public class CustomGameTable extends View {
                 endX = topX + lengthX;
                 endY = topY + lengthY;
 
-
+                //check left limit
                 if (topX > WIDTH_SCREEN * .2) {
                     topX = (float) (WIDTH_SCREEN * .2);
                 }
@@ -78,14 +90,13 @@ public class CustomGameTable extends View {
                     topX = (float) ((WIDTH_SCREEN * .8) - lengthX);         //fixme: wrong right border!
                 }
 
-
+                //check right limit
                 if (topY > HEIGHT_SCREEN * .2) {
                     topY = (float) (HEIGHT_SCREEN * .2);
                 }
                 if (endY < HEIGHT_SCREEN * .8) {
                     topY = (float) ((HEIGHT_SCREEN * .8) - lengthY);
                 }
-
 
                 startMoveX = x;
                 startMoveY = y;
@@ -103,13 +114,52 @@ public class CustomGameTable extends View {
         WIDTH_SCREEN = getMeasuredWidth();
         HEIGHT_SCREEN = getMeasuredHeight();
         CELL_SIZE = WIDTH_SCREEN / 9;
+
+        //костыль
+        float startX = topX;
+        float startY = topY;
+
+        lengthY = 0;
+        lengthX = 0;
+
+        if (items.size() != 0) {
+            for (int i = 0; i < items.size(); i++) {
+                for (int j = 0; j < items.get(i).cellsInRow.size(); j++) {
+                    unit[i][j] = new Unit();
+                    unit[i][j].letter = items.get(i).cellsInRow.get(j).getLetter();
+                    unit[i][j].question = items.get(i).cellsInRow.get(j).getQuestion();
+                    unit[i][j].startX = startX;
+                    unit[i][j].startY = startY;
+
+                    if (items.get(i).cellsInRow.get(j).getQuestion() != null) {
+                        unit[i][j].background = questionBackgroundPaint;
+                    } else if (unit[i][j].selected) {
+                        unit[i][j].background = selectedCellPaint;
+                    }
+
+                    startX += CELL_SIZE;
+                    if (lengthX < startX + CELL_SIZE) {
+                        lengthX += CELL_SIZE;
+                    }
+                }
+                startX = topX;
+                startY += CELL_SIZE;
+                lengthY += CELL_SIZE;
+            }
+            endX = topX + lengthX;
+            endY = topY + lengthY;
+        }
     }
 
     public CustomGameTable(Context context, AttributeSet attrs) {
         super(context, attrs);
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
 
-        paint.setColor(getResources().getColor(R.color.black));
+        linePaint.setColor(getResources().getColor(R.color.black));
+
+        letterCellPaint.setColor(getResources().getColor(R.color.white));
+        selectedCellPaint.setColor(getResources().getColor(R.color.selected));
+        questionBackgroundPaint.setColor(getResources().getColor(R.color.enableButton));
 
         textPaint.setColor(getResources().getColor(R.color.purple));
         textPaint.setTextSize(24);
@@ -125,47 +175,47 @@ public class CustomGameTable extends View {
         canvas.save();
         canvas.scale(mScaleFactor, mScaleFactor);
 
-        float startX = topX;
-        float startY = topY;
 
-        lengthY = 0;
-        lengthX = 0;
-
-        if (items.size() != 0) {
-            for (RowUnit raw : items) {
-                for (CellUnit cell : raw.cellsInRow) {
-
-                    //draw cell
-                    canvas.drawRect(startX, startY, startX + CELL_SIZE, startY + 3, paint);
-                    startX += CELL_SIZE;
-                    canvas.drawRect(startX, startY, startX + 3, startY + CELL_SIZE, paint);
-                    startY += CELL_SIZE;
-                    canvas.drawRect(startX, startY, startX - CELL_SIZE, startY + 3, paint);
-                    startX -= CELL_SIZE;
-                    canvas.drawRect(startX, startY, startX + 3, startY - CELL_SIZE/*+3*/, paint);
-                    startY -= CELL_SIZE;
-
-                    //draw question or letter
-                    if (cell.getLetter() == null) {
-                        drawMultilineText(canvas, cell.getQuestion(), startX, startY);
-                    } else {
-                        canvas.drawText("" + cell.getLetter(), 0, cell.getLetter().length(), startX + CELL_SIZE / 2, startY + CELL_SIZE / 2, textPaint);
-                    }
-
-                    startX += CELL_SIZE;
-                    if (lengthX < startX + CELL_SIZE) {
-                        lengthX += CELL_SIZE;
-                    }
+        if (unit.length != 0 && CELL_SIZE != 0){
+            for (int i = 0; i < items.size(); i++) {
+                for (int j = 0; j < items.get(i).cellsInRow.size(); j++) {
+                    drawCell(canvas,unit[i][j]);
                 }
-                startX = topX;
-                startY += CELL_SIZE;
-                lengthY += CELL_SIZE;
             }
         }
 
-        endX = topX + lengthX;
-        endY = topY + lengthY;
         canvas.restore();
+    }
+
+    private void drawCell(Canvas canvas, Unit unit) {
+        String letter = unit.letter;
+        String question = unit.question;
+
+        float startX = topX + unit.startX;
+        float startY = topY + unit.startY;
+        Paint background = unit.background;
+
+        //draw cell
+        canvas.drawRect(startX, startY, startX + CELL_SIZE, startY + GRID_BORDER_WIDTH, linePaint);
+        startX += CELL_SIZE;
+        canvas.drawRect(startX, startY, startX + GRID_BORDER_WIDTH, startY + CELL_SIZE, linePaint);
+        startY += CELL_SIZE;
+        canvas.drawRect(startX, startY, startX - CELL_SIZE, startY + GRID_BORDER_WIDTH, linePaint);
+        startX -= CELL_SIZE;
+        canvas.drawRect(startX, startY, startX + GRID_BORDER_WIDTH, startY - CELL_SIZE, linePaint);
+        startY -= CELL_SIZE;
+
+
+        if (background != null){
+            canvas.drawRect(startX + GRID_BORDER_WIDTH, startY + GRID_BORDER_WIDTH, startX + CELL_SIZE, startY + CELL_SIZE, background);
+        }
+
+        //draw question or letter
+        if (letter == null) {
+            drawMultilineText(canvas, question, startX, startY);
+        } else {
+            canvas.drawText("" + letter, 0, letter.length(), startX + CELL_SIZE / 2, startY + CELL_SIZE / 2, textPaint);
+        }
     }
 
     private void drawMultilineText(Canvas canvas, String question, float startX, float startY) {
@@ -174,13 +224,11 @@ public class CustomGameTable extends View {
 
         float textHeight = getTextHeight(question, textPaint);
         int numberOfTextLines = staticLayout.getLineCount();
-        float textYCoordinate = startY + (CELL_SIZE - numberOfTextLines*textHeight)/4;
+        float textYCoordinate = startY + (CELL_SIZE - numberOfTextLines * textHeight) / 4;
 
-        canvas.translate(startX + CELL_SIZE / 2, textYCoordinate );
-
+        canvas.translate(startX + CELL_SIZE / 2, textYCoordinate);
         staticLayout.draw(canvas);
         canvas.restore();
-
     }
 
     public void setContent(ArrayList<RowUnit> items) {
@@ -194,12 +242,21 @@ public class CustomGameTable extends View {
     }
 
 
+    private class Unit {
+        boolean selected = false;
+        String letter;
+        String question;
+        Paint background;
+
+        float startX;
+        float startY;
+    }
+
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
             mScaleFactor *= detector.getScaleFactor();
 
-            // Don't let the object get too small or too large.
             mScaleFactor = Math.max(1.f, Math.min(mScaleFactor, 2.0f));
 
             WIDTH_SCREEN = getMeasuredWidth() / mScaleFactor;
