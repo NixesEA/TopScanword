@@ -225,9 +225,7 @@ public class CustomGameTable extends View {
                 unit[selectedCellY][selectedCellX].letter = letter.toUpperCase();
                 unit[selectedCellY][selectedCellX].background = selectedRowPaint;
 
-//                Log.i("letterTEST","setLetter " + unit[selectedCellY][selectedCellX + 1].letter);
-//                Log.i("letterTEST","setLetter " + selectedCellY);
-//                Log.i("letterTEST","setLetter " + unit[selectedCellY + 1][selectedCellX ].letter);
+                Log.i("letterTEST","setLetter " + unit[selectedCellY][selectedCellX].letter);
 
                 if (wordOrientation) {
                     if (unit[selectedCellY][selectedCellX + 1].background != questionBackgroundPaint) {
@@ -240,13 +238,13 @@ public class CustomGameTable extends View {
                         topY -= CELL_SIZE;
                     }
                 }
-                unit[selectedCellY][selectedCellX].background = selectedCellPaint;
-                Log.i("letterTEST", "selectedCellX" + selectedCellX);
             }
 
 
         } catch (ArrayIndexOutOfBoundsException ignored) {
+            ignored.printStackTrace();
         }
+        unit[selectedCellY][selectedCellX].background = selectedCellPaint;
 
         invalidate();
         Log.d("CustomView", "Current text: " + letter);
