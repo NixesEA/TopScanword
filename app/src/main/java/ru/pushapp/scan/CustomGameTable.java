@@ -15,7 +15,6 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import ru.pushapp.scan.JsonUtil.CellUnit;
 import ru.pushapp.scan.JsonUtil.RowUnit;
 
 
@@ -35,9 +34,9 @@ public class CustomGameTable extends View {
     Paint linePaint = new Paint();
     Paint letterCellPaint = new Paint();
     Paint selectedCellPaint = new Paint();
+    Paint selectedRowPaint = new Paint();
     Paint questionBackgroundPaint = new Paint();
     TextPaint textPaint = new TextPaint();
-
 
     float startMoveX = 0f;
     float startMoveY = 0f;
@@ -51,8 +50,15 @@ public class CustomGameTable extends View {
     float lengthX = 0f;
     float lengthY = 0f;
 
-    int selectedCellX = 0;
-    int selectedCellY = 0;
+    int lastSelectedIndexX = -1;
+    int lastSelectedIndexY = -1;
+
+    int selectedCellX = -1;
+    int selectedCellY = -1;
+
+    //true - landscape
+    //false - portrait
+    boolean wordOrientation = true;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -63,8 +69,12 @@ public class CustomGameTable extends View {
                 startMoveX = event.getRawX();
                 startMoveY = event.getRawY();
 
-                selectedCellX = (int) (event.getRawX() / CELL_SIZE);
-                selectedCellY = (int) (event.getRawY() / CELL_SIZE);
+                //get start coord selected cell
+                selectedCellX = (int) ((event.getX() / mScaleFactor - topX) / CELL_SIZE);
+                selectedCellY = (int) ((event.getY() / mScaleFactor - topY) / CELL_SIZE);
+
+                if ((selectedCellX >= 0 && selectedCellY >= 0) && (selectedCellX < (lengthX / CELL_SIZE - 1) && selectedCellY < (lengthY / CELL_SIZE - 1)))
+                    highlightingWord(selectedCellY, selectedCellX);
 
                 break;
             }
@@ -146,9 +156,9 @@ public class CustomGameTable extends View {
                 startY += CELL_SIZE;
                 lengthY += CELL_SIZE;
             }
-            endX = topX + lengthX;
-            endY = topY + lengthY;
         }
+        endX = topX + lengthX;
+        endY = topY + lengthY;
     }
 
     public CustomGameTable(Context context, AttributeSet attrs) {
@@ -158,7 +168,8 @@ public class CustomGameTable extends View {
         linePaint.setColor(getResources().getColor(R.color.black));
 
         letterCellPaint.setColor(getResources().getColor(R.color.white));
-        selectedCellPaint.setColor(getResources().getColor(R.color.selected));
+        selectedCellPaint.setColor(getResources().getColor(R.color.selectedCell));
+        selectedRowPaint.setColor(getResources().getColor(R.color.selectedRow));
         questionBackgroundPaint.setColor(getResources().getColor(R.color.enableButton));
 
         textPaint.setColor(getResources().getColor(R.color.purple));
@@ -176,10 +187,10 @@ public class CustomGameTable extends View {
         canvas.scale(mScaleFactor, mScaleFactor);
 
 
-        if (unit.length != 0 && CELL_SIZE != 0){
+        if (unit.length != 0 && CELL_SIZE != 0) {
             for (int i = 0; i < items.size(); i++) {
                 for (int j = 0; j < items.get(i).cellsInRow.size(); j++) {
-                    drawCell(canvas,unit[i][j]);
+                    drawCell(canvas, unit[i][j]);
                 }
             }
         }
@@ -206,7 +217,7 @@ public class CustomGameTable extends View {
         startY -= CELL_SIZE;
 
 
-        if (background != null){
+        if (background != null) {
             canvas.drawRect(startX + GRID_BORDER_WIDTH, startY + GRID_BORDER_WIDTH, startX + CELL_SIZE, startY + CELL_SIZE, background);
         }
 
@@ -241,6 +252,68 @@ public class CustomGameTable extends View {
         return rect.height();
     }
 
+    private void highlightingWord(int selectedCellY, int selectedCellX) {
+
+        try {
+            if (unit[selectedCellY][selectedCellX].letter != null) {
+                if (selectedCellX == lastSelectedIndexX && selectedCellY == lastSelectedIndexY) {
+                    coloringLine(letterCellPaint, lastSelectedIndexY, lastSelectedIndexX);
+                    wordOrientation = !wordOrientation;
+                    coloringLine(selectedRowPaint, selectedCellY, selectedCellX);
+                } else {
+                    coloringLine(letterCellPaint, lastSelectedIndexY, lastSelectedIndexX);
+                    coloringLine(selectedRowPaint, selectedCellY, selectedCellX);
+                }
+
+                unit[selectedCellY][selectedCellX].background = selectedCellPaint;
+
+                lastSelectedIndexX = selectedCellX;
+                lastSelectedIndexY = selectedCellY;
+            }
+        } catch (ArrayIndexOutOfBoundsException ignored) {}
+    }
+
+    private void coloringLine(Paint paint, int selectedCellY, int selectedCellX) {
+        if (wordOrientation) {
+            //landscape
+            int x = selectedCellX;
+            try {
+                while (unit[selectedCellY][x].letter != null) {
+                    unit[selectedCellY][x].background = paint;
+                    x++;
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+            }
+
+            x = selectedCellX;
+            try {
+                while (unit[selectedCellY][x].letter != null) {
+                    unit[selectedCellY][x].background = paint;
+                    x--;
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+            }
+        } else {
+            //portrait
+            int y = selectedCellY;
+            try {
+                while (unit[y][selectedCellX].letter != null) {
+                    unit[y][selectedCellX].background = paint;
+                    y++;
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+            }
+
+            y = selectedCellY;
+            try {
+                while (unit[y][selectedCellX].letter != null) {
+                    unit[y][selectedCellX].background = paint;
+                    y--;
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+            }
+        }
+    }
 
     private class Unit {
         boolean selected = false;
