@@ -4,14 +4,30 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.inputmethodservice.InputMethodService;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.Layout;
+import android.text.Selection;
+import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.inputmethod.BaseInputConnection;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
@@ -31,6 +47,7 @@ public class CustomGameTable extends View {
     Unit[][] unit = new Unit[18][9];
 
     Canvas localCanvas = null;
+
     Paint linePaint = new Paint();
     Paint letterCellPaint = new Paint();
     Paint selectedCellPaint = new Paint();
@@ -73,8 +90,9 @@ public class CustomGameTable extends View {
                 selectedCellX = (int) ((event.getX() / mScaleFactor - topX) / CELL_SIZE);
                 selectedCellY = (int) ((event.getY() / mScaleFactor - topY) / CELL_SIZE);
 
-                if ((selectedCellX >= 0 && selectedCellY >= 0) && (selectedCellX < (lengthX / CELL_SIZE - 1) && selectedCellY < (lengthY / CELL_SIZE - 1)))
+                if ((selectedCellX >= 0 && selectedCellY >= 0) && (selectedCellX < (lengthX / CELL_SIZE - 1) && selectedCellY < (lengthY / CELL_SIZE))) {
                     highlightingWord(selectedCellY, selectedCellX);
+                }
 
                 break;
             }
@@ -121,9 +139,13 @@ public class CustomGameTable extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
         WIDTH_SCREEN = getMeasuredWidth();
         HEIGHT_SCREEN = getMeasuredHeight();
         CELL_SIZE = WIDTH_SCREEN / 9;
+
+        Log.d("TEST", "width = " + WIDTH_SCREEN);
+        Log.d("TEST", "height = " + HEIGHT_SCREEN);
 
         //костыль
         float startX = topX;
@@ -186,7 +208,6 @@ public class CustomGameTable extends View {
         canvas.save();
         canvas.scale(mScaleFactor, mScaleFactor);
 
-
         if (unit.length != 0 && CELL_SIZE != 0) {
             for (int i = 0; i < items.size(); i++) {
                 for (int j = 0; j < items.get(i).cellsInRow.size(); j++) {
@@ -196,6 +217,39 @@ public class CustomGameTable extends View {
         }
 
         canvas.restore();
+    }
+
+    public void setLetter(String letter) {
+        try {
+            if (unit[selectedCellY][selectedCellX].letter != null) {
+                unit[selectedCellY][selectedCellX].letter = letter.toUpperCase();
+                unit[selectedCellY][selectedCellX].background = selectedRowPaint;
+
+//                Log.i("letterTEST","setLetter " + unit[selectedCellY][selectedCellX + 1].letter);
+//                Log.i("letterTEST","setLetter " + selectedCellY);
+//                Log.i("letterTEST","setLetter " + unit[selectedCellY + 1][selectedCellX ].letter);
+
+                if (wordOrientation) {
+                    if (unit[selectedCellY][selectedCellX + 1].background != questionBackgroundPaint) {
+                        selectedCellX++;
+                        topX -= CELL_SIZE;
+                    }
+                } else {
+                    if (unit[selectedCellY + 1][selectedCellX].background != questionBackgroundPaint) {
+                        selectedCellY++;
+                        topY -= CELL_SIZE;
+                    }
+                }
+                unit[selectedCellY][selectedCellX].background = selectedCellPaint;
+                Log.i("letterTEST", "selectedCellX" + selectedCellX);
+            }
+
+
+        } catch (ArrayIndexOutOfBoundsException ignored) {
+        }
+
+        invalidate();
+        Log.d("CustomView", "Current text: " + letter);
     }
 
     private void drawCell(Canvas canvas, Unit unit) {
@@ -253,7 +307,6 @@ public class CustomGameTable extends View {
     }
 
     private void highlightingWord(int selectedCellY, int selectedCellX) {
-
         try {
             if (unit[selectedCellY][selectedCellX].letter != null) {
                 if (selectedCellX == lastSelectedIndexX && selectedCellY == lastSelectedIndexY) {
@@ -270,7 +323,8 @@ public class CustomGameTable extends View {
                 lastSelectedIndexX = selectedCellX;
                 lastSelectedIndexY = selectedCellY;
             }
-        } catch (ArrayIndexOutOfBoundsException ignored) {}
+        } catch (ArrayIndexOutOfBoundsException ignored) {
+        }
     }
 
     private void coloringLine(Paint paint, int selectedCellY, int selectedCellX) {
@@ -314,6 +368,7 @@ public class CustomGameTable extends View {
             }
         }
     }
+
 
     private class Unit {
         boolean selected = false;
