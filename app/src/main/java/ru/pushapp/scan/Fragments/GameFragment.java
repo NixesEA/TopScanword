@@ -49,9 +49,7 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
 
         // Create the Keyboard
         mKeyboard = new Keyboard(getActivity(), R.xml.number_pad);
-        // Lookup the KeyboardView
         KeyboardView mKeyboardView = view.findViewById(R.id.keyboardview);
-        // Attach the keyboard to the view
         mKeyboardView.setKeyboard(mKeyboard);
         mKeyboardView.setOnKeyboardActionListener(this);
         mKeyboardView.setPreviewEnabled(false);
@@ -74,8 +72,6 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
             }
         }
         customGameTable.setContent(objectJSON.rows);
-//        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
 
         super.onResume();
     }
@@ -94,8 +90,10 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
     @Override
     public void onPress(int i) {
         if (i == -5){
-            //todo press delete key
+            customGameTable.deleteLetter();
+            return;
         }
+
         StringBuilder mComposing = new StringBuilder();
 
         String value =   mComposing.append((char) i).toString();

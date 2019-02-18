@@ -49,6 +49,8 @@ public class CustomGameTable extends View {
     Canvas localCanvas = null;
 
     Paint linePaint = new Paint();
+    Paint arrowPaint = new Paint();
+    Paint rightWordPaint = new Paint();
     Paint letterCellPaint = new Paint();
     Paint selectedCellPaint = new Paint();
     Paint selectedRowPaint = new Paint();
@@ -80,6 +82,8 @@ public class CustomGameTable extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mScaleDetector.onTouchEvent(event);
+        lastSelectedIndexY = selectedCellY;
+        lastSelectedIndexX = selectedCellX;
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
@@ -91,7 +95,7 @@ public class CustomGameTable extends View {
                 selectedCellY = (int) ((event.getY() / mScaleFactor - topY) / CELL_SIZE);
 
                 if ((selectedCellX >= 0 && selectedCellY >= 0) && (selectedCellX < (lengthX / CELL_SIZE - 1) && selectedCellY < (lengthY / CELL_SIZE))) {
-                    highlightingWord(selectedCellY, selectedCellX);
+                    highlightingWord();
                 }
 
                 break;
@@ -144,10 +148,7 @@ public class CustomGameTable extends View {
         HEIGHT_SCREEN = getMeasuredHeight();
         CELL_SIZE = WIDTH_SCREEN / 9;
 
-        Log.d("TEST", "width = " + WIDTH_SCREEN);
-        Log.d("TEST", "height = " + HEIGHT_SCREEN);
-
-        //костыль
+        //!костыль
         float startX = topX;
         float startY = topY;
 
@@ -158,6 +159,7 @@ public class CustomGameTable extends View {
             for (int i = 0; i < items.size(); i++) {
                 for (int j = 0; j < items.get(i).cellsInRow.size(); j++) {
                     unit[i][j] = new Unit();
+                    unit[i][j].arrowPosition = items.get(i).cellsInRow.get(j).getWay();
                     unit[i][j].letter = items.get(i).cellsInRow.get(j).getLetter();
                     unit[i][j].question = items.get(i).cellsInRow.get(j).getQuestion();
                     unit[i][j].startX = startX;
@@ -189,6 +191,10 @@ public class CustomGameTable extends View {
 
         linePaint.setColor(getResources().getColor(R.color.black));
 
+        arrowPaint.setStrokeWidth(3f);
+        arrowPaint.setColor(getResources().getColor(R.color.black));
+
+        rightWordPaint.setColor(getResources().getColor(R.color.lightGreen));
         letterCellPaint.setColor(getResources().getColor(R.color.white));
         selectedCellPaint.setColor(getResources().getColor(R.color.selectedCell));
         selectedRowPaint.setColor(getResources().getColor(R.color.selectedRow));
@@ -209,8 +215,8 @@ public class CustomGameTable extends View {
         canvas.scale(mScaleFactor, mScaleFactor);
 
         if (unit.length != 0 && CELL_SIZE != 0) {
-            for (int i = 0; i < items.size(); i++) {
-                for (int j = 0; j < items.get(i).cellsInRow.size(); j++) {
+            for (int i = 0; i < unit.length; i++) {
+                for (int j = 0; j < unit[i].length; j++) {
                     drawCell(canvas, unit[i][j]);
                 }
             }
@@ -219,44 +225,20 @@ public class CustomGameTable extends View {
         canvas.restore();
     }
 
-    public void setLetter(String letter) {
-        try {
-            if (unit[selectedCellY][selectedCellX].letter != null) {
-                unit[selectedCellY][selectedCellX].letter = letter.toUpperCase();
-                unit[selectedCellY][selectedCellX].background = selectedRowPaint;
-
-                Log.i("letterTEST","setLetter " + unit[selectedCellY][selectedCellX].letter);
-
-                if (wordOrientation) {
-                    if (unit[selectedCellY][selectedCellX + 1].background != questionBackgroundPaint) {
-                        selectedCellX++;
-                        topX -= CELL_SIZE;
-                    }
-                } else {
-                    if (unit[selectedCellY + 1][selectedCellX].background != questionBackgroundPaint) {
-                        selectedCellY++;
-                        topY -= CELL_SIZE;
-                    }
-                }
-            }
-
-
-        } catch (ArrayIndexOutOfBoundsException ignored) {
-            ignored.printStackTrace();
-        }
-        unit[selectedCellY][selectedCellX].background = selectedCellPaint;
-
-        invalidate();
-        Log.d("CustomView", "Current text: " + letter);
-    }
-
     private void drawCell(Canvas canvas, Unit unit) {
         String letter = unit.letter;
+        String userLetter = unit.userLetter;
         String question = unit.question;
 
         float startX = topX + unit.startX;
         float startY = topY + unit.startY;
         Paint background = unit.background;
+
+        try {
+            unit.right = letter.equals(userLetter);
+            //todo check row and column
+        } catch (NullPointerException ignored) {
+        }
 
         //draw cell
         canvas.drawRect(startX, startY, startX + CELL_SIZE, startY + GRID_BORDER_WIDTH, linePaint);
@@ -268,17 +250,497 @@ public class CustomGameTable extends View {
         canvas.drawRect(startX, startY, startX + GRID_BORDER_WIDTH, startY - CELL_SIZE, linePaint);
         startY -= CELL_SIZE;
 
-
-        if (background != null) {
+        //coloring
+        if (background != null && background == questionBackgroundPaint) {
             canvas.drawRect(startX + GRID_BORDER_WIDTH, startY + GRID_BORDER_WIDTH, startX + CELL_SIZE, startY + CELL_SIZE, background);
+        } else if (unit.selected) {
+            canvas.drawRect(startX + GRID_BORDER_WIDTH, startY + GRID_BORDER_WIDTH, startX + CELL_SIZE, startY + CELL_SIZE, selectedRowPaint);
+        }
+        if (unit.inFocus) {
+            canvas.drawRect(startX + GRID_BORDER_WIDTH, startY + GRID_BORDER_WIDTH, startX + CELL_SIZE, startY + CELL_SIZE, selectedCellPaint);
+        }
+        if (unit.right) {
+            canvas.drawRect(startX + GRID_BORDER_WIDTH, startY + GRID_BORDER_WIDTH, startX + CELL_SIZE, startY + CELL_SIZE, rightWordPaint);
         }
 
         //draw question or letter
         if (letter == null) {
             drawMultilineText(canvas, question, startX, startY);
         } else {
-            canvas.drawText("" + letter, 0, letter.length(), startX + CELL_SIZE / 2, startY + CELL_SIZE / 2, textPaint);
+            canvas.drawText("" + userLetter, 0, userLetter.length(), startX + CELL_SIZE / 2, startY + CELL_SIZE / 2, textPaint);
         }
+
+        //draw arrow
+        drawArrow(canvas, unit.arrowPosition, startX, startY);
+    }
+
+    private void drawArrow(Canvas canvas, int arrowPosition, float startX, float startY) {
+        float arrowLength = CELL_SIZE / 6;
+
+        float fstartY = 0;
+        float fstartX = 0;
+        float fstopY = 0;
+        float fstopX = 0;
+
+        float sstartY = 0;
+        float sstartX = 0;
+        float sstopY = 0;
+        float sstopX = 0;
+
+        float tstartY = 0;
+        float tstartX = 0;
+        float tstopY = 0;
+        float tstopX = 0;
+        float tsstopY = 0;
+        float tsstopX = 0;
+
+        //+1 убирает торчащие углы
+        switch (arrowPosition) {
+            case 1: {
+                fstartX += startX + 1;
+                fstartY += startY + 0;
+                fstopX += fstartX + arrowLength;
+                fstopY += fstartY + arrowLength;
+
+//                canvas.drawLine(startX + 1, startY, startX + arrowLength, startY + arrowLength, arrowPaint);
+//                startX += arrowLength;
+//                startY += arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX;
+                sstopY += sstartY + arrowLength;
+//                canvas.drawLine(startX, startY, startX, startY + arrowLength, arrowPaint);
+//                startY += arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX + arrowLength / 2;
+                tsstopY += tstartY - arrowLength / 2;
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+
+                break;
+            }
+            case 2: {
+                fstartX += startX + 1;
+                fstartY += startY + 0;
+                fstopX += fstartX + arrowLength;
+                fstopY += fstartY + arrowLength;
+
+//                canvas.drawLine(startX + 1, startY, startX + arrowLength, startY + arrowLength, arrowPaint);
+//                startX += arrowLength;
+//                startY += arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX + arrowLength;
+                sstopY += sstartY;
+
+//                canvas.drawLine(startX, startY, startX + arrowLength, startY , arrowPaint);
+//                startX += arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX - arrowLength / 2;
+                tsstopY += tstartY + arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
+                break;
+            }
+            case 3: {
+                fstartX += startX + 1 + CELL_SIZE/2;
+                fstartY += startY + 0;
+                fstopX += fstartX;
+                fstopY += fstartY + arrowLength;
+
+//                startX += CELL_SIZE/2;
+//                canvas.drawLine(startX, startY, startX, startY + arrowLength, arrowPaint);
+//                startY += arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX;
+                sstopY += sstartY;
+
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX + arrowLength / 2;
+                tsstopY += tstartY - arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+
+                break;
+            }
+            case 4: {
+                fstartX += startX + 1 + CELL_SIZE/2;
+                fstartY += startY + 0;
+                fstopX += fstartX;
+                fstopY += fstartY + arrowLength;
+
+//                startX += CELL_SIZE/2;
+//                canvas.drawLine(startX, startY, startX, startY + arrowLength, arrowPaint);
+//                startY += arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX + arrowLength;
+                sstopY += sstartY;
+
+//                canvas.drawLine(startX, startY, startX + arrowLength, startY , arrowPaint);
+//                startX += arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX - arrowLength / 2;
+                tsstopY += tstartY + arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
+
+                break;
+            }
+            case 5: {
+                fstartX += startX + 1 + CELL_SIZE;
+                fstartY += startY + 0;
+                fstopX += fstartX - arrowLength;
+                fstopY += fstartY + arrowLength;
+
+//                startX += CELL_SIZE;
+//                canvas.drawLine(startX, startY, startX - arrowLength, startY + arrowLength, arrowPaint);
+//                startX -= arrowLength;
+//                startY += arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX;
+                sstopY += sstartY + arrowLength;
+
+//                canvas.drawLine(startX, startY, startX, startY + arrowLength , arrowPaint);
+//                startY += arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX + arrowLength / 2;
+                tsstopY += tstartY - arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+                break;
+            }
+            case 6: {
+                fstartX += startX + 1 + CELL_SIZE;
+                fstartY += startY + 0;
+                fstopX += fstartX - 2 * arrowLength;
+                fstopY += fstartY + 2 * arrowLength;
+
+//                startX += CELL_SIZE;
+//                canvas.drawLine(startX, startY, startX - 2 * arrowLength, startY + 2 * arrowLength, arrowPaint);
+//                startX -= 2 * arrowLength;
+//                startY += 2 * arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX + 1.5 * arrowLength;
+                sstopY += sstartY;
+
+//                canvas.drawLine(startX, startY, (float) (startX + 1.5 * arrowLength), startY , arrowPaint);
+//                startX += 1.5 * arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX - arrowLength / 2;
+                tsstopY += tstartY + arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
+                break;
+            }
+            case 7: {
+                fstartX += startX + 1;
+                fstartY += startY + CELL_SIZE/2;
+                fstopX += fstartX + arrowLength;
+                fstopY += fstartY;
+
+//                startY += CELL_SIZE/2;
+//                canvas.drawLine(startX, startY, startX + arrowLength, startY, arrowPaint);
+//                startX += arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX;
+                sstopY += sstartY + arrowLength;
+
+//                canvas.drawLine(startX, startY, startX, startY + arrowLength, arrowPaint);
+//                startY += arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX + arrowLength / 2;
+                tsstopY += tstartY - arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+
+                break;
+            }
+            case 8: {
+                fstartX += startX + 1;
+                fstartY += startY + CELL_SIZE/2;
+                fstopX += fstartX + arrowLength;
+                fstopY += fstartY;
+
+
+//                startY += CELL_SIZE/2;
+//                canvas.drawLine(startX, startY, startX + arrowLength, startY, arrowPaint);
+//                startX += arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX;
+                sstopY += sstartY;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX - arrowLength / 2;
+                tsstopY += tstartY + arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
+
+                break;
+            }
+            case 9: {
+                fstartX += startX + 1;
+                fstartY += startY + CELL_SIZE;
+                fstopX += fstartX + 2* arrowLength;
+                fstopY += fstartY - 2 *arrowLength;
+
+//                startY += CELL_SIZE;
+//                canvas.drawLine(startX, startY, startX + 2 * arrowLength, startY - 2 * arrowLength, arrowPaint);
+//                startX += 2* arrowLength;
+//                startY -= 2* arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX;
+                sstopY += sstartY + 1.5 * arrowLength;
+
+//                canvas.drawLine(startX, startY, startX, (float) (startY + 1.5 * arrowLength), arrowPaint);
+//                startY += 1.5 * arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX + arrowLength / 2;
+                tsstopY += tstartY - arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+
+                break;
+            }
+            case 10: {
+                fstartX += startX + 1;
+                fstartY += startY + CELL_SIZE;
+                fstopX += fstartX + arrowLength;
+                fstopY += fstartY - arrowLength;
+
+//                startY += CELL_SIZE;
+//                canvas.drawLine(startX, startY, startX + arrowLength, startY - arrowLength, arrowPaint);
+//                startX += arrowLength;
+//                startY -= arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX + 1.5 * arrowLength;
+                sstopY += sstartY;
+
+//                canvas.drawLine(startX, startY, (float) (startX + 1.5 * arrowLength), startY, arrowPaint);
+//                startX += 1.5 * arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX - arrowLength / 2;
+                tsstopY += tstartY + arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
+
+                break;
+            }
+            case 11: {
+                fstartX += startX + 1 + CELL_SIZE;
+                fstartY += startY + CELL_SIZE;
+                fstopX += fstartX - 2* arrowLength;
+                fstopY += fstartY - 2* arrowLength;
+
+//                startY += CELL_SIZE;
+//                startX += CELL_SIZE;
+//                canvas.drawLine(startX, startY, startX - 2 * arrowLength, startY - 2 * arrowLength, arrowPaint);
+//                startX -= 2* arrowLength;
+//                startY -= 2* arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX;
+                sstopY += sstartY + 1.5 * arrowLength;
+
+//                canvas.drawLine(startX, startY, startX, (float) (startY + 1.5 * arrowLength), arrowPaint);
+//                startY += 1.5 * arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX + arrowLength / 2;
+                tsstopY += tstartY - arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+
+                break;
+            }
+            case 12: {
+                fstartX += startX + 1 + CELL_SIZE;
+                fstartY += startY + CELL_SIZE;
+                fstopX += fstartX - 2* arrowLength;
+                fstopY += fstartY - 2* arrowLength;
+
+//                startY += CELL_SIZE;
+//                startX += CELL_SIZE;
+//                canvas.drawLine(startX, startY, startX - 2 * arrowLength, startY - 2 * arrowLength, arrowPaint);
+//                startX -= 2* arrowLength;
+//                startY -= 2* arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX + 1.5 * arrowLength;
+                sstopY += sstartY;
+
+//                canvas.drawLine(startX, startY, (float) (startX + 1.5 * arrowLength), startY , arrowPaint);
+//                startX += 1.5 * arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX - arrowLength / 2;
+                tsstopY += tstartY + arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
+
+                break;
+            }
+            case 13: {
+                fstartX += startX + 1 + CELL_SIZE/2;
+                fstartY += startY + CELL_SIZE;
+                fstopX += fstartX;
+                fstopY += fstartY - arrowLength;
+
+//                startY += CELL_SIZE;
+//                startX += CELL_SIZE/2;
+//                canvas.drawLine(startX, startY, startX, startY - arrowLength, arrowPaint);
+//                startY -= arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX + 1.5 * arrowLength;
+                sstopY += sstartY;
+
+//                canvas.drawLine(startX, startY, (float) (startX + 1.5 * arrowLength), startY , arrowPaint);
+//                startX += 1.5 * arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX - arrowLength / 2;
+                tsstopY += tstartY + arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
+
+                break;
+            }
+            case 14: {
+                fstartX += startX + 1 + CELL_SIZE;
+                fstartY += startY + CELL_SIZE/2;
+                fstopX += fstartX - arrowLength;
+                fstopY += fstartY;
+
+//                startY += CELL_SIZE/2;
+//                startX += CELL_SIZE;
+//                canvas.drawLine(startX, startY, startX - arrowLength, startY, arrowPaint);
+//                startX -= arrowLength;
+
+                sstartX += fstopX;
+                sstartY += fstopY;
+                sstopX += sstartX;
+                sstopY += sstartY + 1.5 * arrowLength;
+
+//                canvas.drawLine(startX, startY, startX, (float) (startY + 1.5 * arrowLength), arrowPaint);
+//                startY += 1.5 * arrowLength;
+
+                tstartY += sstopY;
+                tstartX += sstopX;
+                tstopX += tstartX - arrowLength / 2;
+                tstopY += tstartY - arrowLength / 2;
+
+                tsstopX += tstartX + arrowLength / 2;
+                tsstopY += tstartY - arrowLength / 2;
+
+//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+
+                break;
+            }
+        }
+
+
+        canvas.drawLine(fstartX,fstartY,fstopX,fstopY, arrowPaint);
+
+        canvas.drawLine(sstartX, sstartY, sstopX, sstopY, arrowPaint);
+
+        canvas.drawLine(tstartX, tstartY, tstopX, tstopY, arrowPaint);
+        canvas.drawLine(tstartX, tstartY, tsstopX, tsstopY, arrowPaint);
+
     }
 
     private void drawMultilineText(Canvas canvas, String question, float startX, float startY) {
@@ -304,15 +766,20 @@ public class CustomGameTable extends View {
         return rect.height();
     }
 
-    private void highlightingWord(int selectedCellY, int selectedCellX) {
+    private void highlightingWord() {
         try {
+            unit[lastSelectedIndexY][lastSelectedIndexX].inFocus = false;
+        } catch (ArrayIndexOutOfBoundsException ignored) {
+        }
+        try {
+            coloringLine(letterCellPaint, lastSelectedIndexY, lastSelectedIndexX);
             if (unit[selectedCellY][selectedCellX].letter != null) {
+                unit[selectedCellY][selectedCellX].inFocus = true;
+                //check double tap
                 if (selectedCellX == lastSelectedIndexX && selectedCellY == lastSelectedIndexY) {
-                    coloringLine(letterCellPaint, lastSelectedIndexY, lastSelectedIndexX);
                     wordOrientation = !wordOrientation;
                     coloringLine(selectedRowPaint, selectedCellY, selectedCellX);
                 } else {
-                    coloringLine(letterCellPaint, lastSelectedIndexY, lastSelectedIndexX);
                     coloringLine(selectedRowPaint, selectedCellY, selectedCellX);
                 }
 
@@ -326,12 +793,17 @@ public class CustomGameTable extends View {
     }
 
     private void coloringLine(Paint paint, int selectedCellY, int selectedCellX) {
+        boolean selected = false;
+        if (paint == selectedRowPaint) {
+            selected = true;
+        }
+
         if (wordOrientation) {
             //landscape
             int x = selectedCellX;
             try {
                 while (unit[selectedCellY][x].letter != null) {
-                    unit[selectedCellY][x].background = paint;
+                    unit[selectedCellY][x].selected = selected;
                     x++;
                 }
             } catch (ArrayIndexOutOfBoundsException ignored) {
@@ -340,7 +812,7 @@ public class CustomGameTable extends View {
             x = selectedCellX;
             try {
                 while (unit[selectedCellY][x].letter != null) {
-                    unit[selectedCellY][x].background = paint;
+                    unit[selectedCellY][x].selected = selected;
                     x--;
                 }
             } catch (ArrayIndexOutOfBoundsException ignored) {
@@ -350,7 +822,7 @@ public class CustomGameTable extends View {
             int y = selectedCellY;
             try {
                 while (unit[y][selectedCellX].letter != null) {
-                    unit[y][selectedCellX].background = paint;
+                    unit[y][selectedCellX].selected = selected;
                     y++;
                 }
             } catch (ArrayIndexOutOfBoundsException ignored) {
@@ -359,7 +831,7 @@ public class CustomGameTable extends View {
             y = selectedCellY;
             try {
                 while (unit[y][selectedCellX].letter != null) {
-                    unit[y][selectedCellX].background = paint;
+                    unit[y][selectedCellX].selected = selected;
                     y--;
                 }
             } catch (ArrayIndexOutOfBoundsException ignored) {
@@ -367,12 +839,82 @@ public class CustomGameTable extends View {
         }
     }
 
+    public void setLetter(String letter) {
+        try {
+            if (unit[selectedCellY][selectedCellX].letter != null) {
+                unit[selectedCellY][selectedCellX].userLetter = letter.toUpperCase();
+                unit[selectedCellY][selectedCellX].inFocus = false;
+
+                if (wordOrientation) {
+                    if (unit[selectedCellY][selectedCellX + 1].background != questionBackgroundPaint) {
+                        lastSelectedIndexX = selectedCellX;
+                        selectedCellX++;
+                        if (topX + selectedCellX * CELL_SIZE > WIDTH_SCREEN * .7) {
+                            topX -= CELL_SIZE;
+                        }
+                    }
+                } else {
+                    if (unit[selectedCellY + 1][selectedCellX].background != questionBackgroundPaint) {
+                        lastSelectedIndexY = selectedCellY;
+                        selectedCellY++;
+                        if (topY + selectedCellY * CELL_SIZE > HEIGHT_SCREEN * .7) {
+                            topY -= CELL_SIZE;
+                        }
+                    }
+                }
+            }
+
+        } catch (ArrayIndexOutOfBoundsException ignored) {
+            ignored.printStackTrace();
+        }
+        unit[selectedCellY][selectedCellX].inFocus = true;
+
+        invalidate();
+    }
+
+    public void deleteLetter() {
+        try {
+            if (unit[selectedCellY][selectedCellX].letter != null) {
+                unit[selectedCellY][selectedCellX].userLetter = "";
+                unit[selectedCellY][selectedCellX].selected = true;
+                unit[selectedCellY][selectedCellX].inFocus = false;
+
+                if (wordOrientation) {
+                    if (unit[selectedCellY][selectedCellX - 1].background != questionBackgroundPaint) {
+                        lastSelectedIndexX = selectedCellX;
+                        selectedCellX--;
+                        topX += CELL_SIZE;
+                    }
+                } else {
+                    if (unit[selectedCellY - 1][selectedCellX].background != questionBackgroundPaint) {
+                        lastSelectedIndexY = selectedCellY;
+                        selectedCellY--;
+                        topY += CELL_SIZE;
+                    }
+                }
+            }
+
+        } catch (ArrayIndexOutOfBoundsException ignored) {
+            ignored.printStackTrace();
+        }
+        unit[selectedCellY][selectedCellX].inFocus = true;
+
+        invalidate();
+    }
+
 
     private class Unit {
+        boolean right = false;
+        boolean inFocus = false;
         boolean selected = false;
+
+        int arrowPosition = 0;
+
         String letter;
         String question;
         Paint background;
+
+        String userLetter = "";
 
         float startX;
         float startY;

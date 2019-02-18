@@ -12,7 +12,7 @@ public class CellUnit {
     private String question;
 
     @SerializedName("way")
-    private float way;
+    private int way;
 
     // Getter Methods
     public String getLetter() {
@@ -23,7 +23,7 @@ public class CellUnit {
         return question;
     }
 
-    public float getWay() {
+    public int getWay() {
         return way;
     }
 
@@ -37,7 +37,7 @@ public class CellUnit {
         this.question = question;
     }
 
-    public void setWay(float way) {
+    public void setWay(int way) {
         this.way = way;
     }
 

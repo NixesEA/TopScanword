@@ -44,39 +44,39 @@
         {
           "letter": "В",
           "question": null,
-          "way": null
+          "way": "1"
         },{
           "letter": "А",
           "question": null,
-          "way": null
+          "way": "2"
         },{
           "letter": "Л",
           "question": null,
-          "way": null
+          "way": "3"
         },{
           "letter": "Е",
           "question": null,
-          "way": null
+          "way": "4"
         },{
           "letter": "Н",
           "question": null,
-          "way": null
+          "way": "5"
         },{
           "letter": "Т",
           "question": null,
-          "way": null
+          "way": "6"
         },{
           "letter": "И",
           "question": null,
-          "way": null
+          "way": "7"
         },{
           "letter": "Н",
           "question": null,
-          "way": null
+          "way": "8"
         },{
           "letter": "А",
           "question": null,
-          "way": null
+          "way": "9"
         }
       ]},
     {
@@ -88,7 +88,7 @@
         },{
           "letter": "Т",
           "question": null,
-          "way": null
+          "way": "10"
         },{
           "letter": null,
           "question": "Троя",
@@ -96,7 +96,7 @@
         },{
           "letter": "Н",
           "question": null,
-          "way": null
+          "way": "11"
         },{
           "letter": null,
           "question": "Местоимение 3 лица",
@@ -104,7 +104,7 @@
         },{
           "letter": "О",
           "question": null,
-          "way": null
+          "way": "12"
         },{
           "letter": null,
           "question": "... Фрейндлих",
@@ -112,7 +112,7 @@
         },{
           "letter": "Р",
           "question": null,
-          "way": null
+          "way": "13"
         },{
           "letter": null,
           "question": "Костяк",
@@ -124,7 +124,7 @@
         {
           "letter": "К",
           "question": null,
-          "way": null
+          "way": "14"
         },{
           "letter": "А",
           "question": null,
