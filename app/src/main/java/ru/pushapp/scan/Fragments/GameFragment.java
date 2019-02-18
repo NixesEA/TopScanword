@@ -21,6 +21,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import androidx.navigation.Navigation;
+import ru.pushapp.scan.App;
 import ru.pushapp.scan.CustomGameTable;
 import ru.pushapp.scan.JsonUtil.CellUnit;
 import ru.pushapp.scan.JsonUtil.ObjectJSON;
@@ -53,7 +54,8 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
 
     @Override
     public void onResume() {
-        FILE_NAME = getArguments().getString("id_scanword");
+        int index = getArguments().getInt("id_scanword");
+        FILE_NAME = getArguments().getString("file_name");
 
         String json;
         ObjectJSON objectJSON = new ObjectJSON();
@@ -66,17 +68,23 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
 
             objectJSON = new Gson().fromJson(json, ObjectJSON.class);
         } else {
-            Type type = new TypeToken<ArrayList<RowUnit>>() {
-            }.getType();
-            objectJSON.rows = new Gson().fromJson(json, type);
+            objectJSON.rows = App.getScanword(index);
         }
 
         customGameTable.setContent(objectJSON.rows);
 
-        customGameTable.setCustomListener(() -> Navigation.findNavController(customGameTable).navigate(R.id.action_gameFragment_to_winFragment));
+        customGameTable.setCustomListener(new CustomGameTable.OnCustomListener() {
+            @Override
+            public void onEvent() {
+                Bundle bundle = new Bundle();
+                bundle.putInt("id_scanword",index);
+
+                Navigation.findNavController(customGameTable).navigate(R.id.action_gameFragment_to_winFragment,bundle);
+            }
+        });
+//        customGameTable.setCustomListener(() -> Navigation.findNavController(customGameTable).navigate(R.id.action_gameFragment_to_winFragment));
         super.onResume();
     }
-
 
     public String inputStreamToString(InputStream inputStream) {
         try {
@@ -102,7 +110,6 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
         editor.putString("content", json);
         editor.putFloat("progress", progress);
         editor.apply();
-
     }
 
     @Override

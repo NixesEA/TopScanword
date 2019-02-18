@@ -22,7 +22,10 @@ import ru.pushapp.scan.App;
 import ru.pushapp.scan.R;
 import ru.pushapp.scan.Adapters.RecyclerAdapter;
 
-public class LevelFragment extends Fragment implements View.OnClickListener {
+public class LevelFragment extends Fragment implements View.OnClickListener{
+
+    ArrayList<LevelData> leaderList;
+    RecyclerAdapter adapter;
 
     RecyclerView level_rv;
     Toolbar toolbar;
@@ -50,33 +53,37 @@ public class LevelFragment extends Fragment implements View.OnClickListener {
         level_rv = view.findViewById(R.id.level_rv);
         level_rv.setLayoutManager(linearLayoutManager);
 
+        leaderList = new ArrayList<>();
+
         return view;
     }
 
     @Override
     public void onResume() {
-        ArrayList<LevelData> leaderList = getArrayList();
-        RecyclerAdapter adapter = new RecyclerAdapter(getContext(), leaderList);
+        leaderList.clear();
+        level_rv.setAdapter(null);
+
+        leaderList = getArrayList();
+        adapter = new RecyclerAdapter(getContext(), leaderList);
+
         level_rv.setAdapter(adapter);
         super.onResume();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        App.getAllRaw();
-    }
 
     private ArrayList<LevelData> getArrayList() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("scanword_1", Context.MODE_PRIVATE);
-        int progress = (int) (sharedPreferences.getFloat("progress", 0) * 100);
+
 
         ArrayList<LevelData> arrayList = new ArrayList<>();
-        arrayList.add(new LevelData("Сканворд №1", "Тематика: Общая", 73, true, "scanword_1"));
-        arrayList.add(new LevelData("Сканворд №2", "Тематика: Общая", 15, true, "scanword_2"));
-        arrayList.add(new LevelData("Сканворд №3", "Тематика: Общая", progress, true, ""));
-        arrayList.add(new LevelData("Сканворд №4", "Тематика: Общая", 0, false, ""));
-        arrayList.add(new LevelData("Сканворд №5", "Тематика: Общая", 0, false, ""));
+        for (int i = 0; i < App.getCrosswordSize(); i++){
+            LevelData levelData = App.getCrosswordInfo(i);
+
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(levelData.getRes(), Context.MODE_PRIVATE);
+            levelData.setProgress((int) (sharedPreferences.getFloat("progress", 0) * 100));
+
+            arrayList.add(levelData);
+        }
+
         return arrayList;
     }
 
@@ -84,4 +91,5 @@ public class LevelFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         getActivity().onBackPressed();
     }
+
 }

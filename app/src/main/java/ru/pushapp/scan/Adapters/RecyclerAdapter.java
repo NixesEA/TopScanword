@@ -48,7 +48,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.rvAdap
             //todo переход на экран с нужным уровнем
             if (list_items.get(getAdapterPosition()).isUnblocked()){
                 Bundle bundle = new Bundle();
-                bundle.putString("id_scanword",list_items.get(getAdapterPosition()).getRes());
+                bundle.putInt("id_scanword",getAdapterPosition());
+                bundle.putString("file_name",list_items.get(getAdapterPosition()).getRes());
 
                 Navigation.findNavController(view).navigate(R.id.action_levelFragment_to_gameFragment,bundle);
             } else {
