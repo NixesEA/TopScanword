@@ -50,7 +50,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.rvAdap
                 Bundle bundle = new Bundle();
                 bundle.putString("id_scanword",list_items.get(getAdapterPosition()).getRes());
 
-                Navigation.findNavController(view).navigate(R.id.action_levelFragment_to_gameFragment2,bundle);
+                Navigation.findNavController(view).navigate(R.id.action_levelFragment_to_gameFragment,bundle);
             } else {
                 Toast.makeText(context, "Необходимо пройти предыдущие уровни", Toast.LENGTH_SHORT).show();
             }

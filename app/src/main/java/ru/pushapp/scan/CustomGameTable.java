@@ -3,7 +3,9 @@ package ru.pushapp.scan;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -36,6 +38,7 @@ import ru.pushapp.scan.JsonUtil.RowUnit;
 
 
 public class CustomGameTable extends View {
+    OnCustomListener mListener;
     float GRID_BORDER_WIDTH = 3;
     float CELL_SIZE;
     float WIDTH_SCREEN;
@@ -59,6 +62,7 @@ public class CustomGameTable extends View {
     Paint selectedRowPaint = new Paint();
     Paint questionBackgroundPaint = new Paint();
     TextPaint textPaint = new TextPaint();
+    TextPaint userTextPoint = new TextPaint();
 
     float startMoveX = 0f;
     float startMoveY = 0f;
@@ -81,6 +85,10 @@ public class CustomGameTable extends View {
     //true - landscape
     //false - portrait
     boolean wordOrientation = true;
+
+    public void setCustomListener(OnCustomListener eventListener) {
+        mListener = eventListener;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -205,10 +213,16 @@ public class CustomGameTable extends View {
         selectedRowPaint.setColor(getResources().getColor(R.color.selectedRow));
         questionBackgroundPaint.setColor(getResources().getColor(R.color.enableButton));
 
-        textPaint.setColor(getResources().getColor(R.color.purple));
-        textPaint.setTextSize(24);
+        textPaint.setColor(getResources().getColor(R.color.darkBlack));
+        textPaint.setTextSize(26);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setLinearText(true);
+
+        userTextPoint.setColor(getResources().getColor(R.color.darkBlack));
+        userTextPoint.setTextSize(48);
+        userTextPoint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        userTextPoint.setTextAlign(Paint.Align.CENTER);
+        userTextPoint.setLinearText(true);
     }
 
     @Override
@@ -228,13 +242,18 @@ public class CustomGameTable extends View {
                 }
             }
         }
+        if(mListener!=null && countLetter == countRightLetter)
+            mListener.onEvent();
 
         canvas.restore();
     }
 
     private void drawCell(Canvas canvas, Unit unit) {
         String letter = unit.letter;
-        String userLetter = unit.userLetter;
+        String userLetter = "";
+        if (unit.userLetter != null){
+            userLetter = unit.userLetter;
+        }
         String question = unit.question;
 
         float startX = topX + unit.startX;
@@ -248,6 +267,7 @@ public class CustomGameTable extends View {
             if (letter.equals(userLetter)){
                 unit.right = true;
                 countRightLetter++;
+
             } else {
                 unit.right = false;
             }
@@ -280,8 +300,8 @@ public class CustomGameTable extends View {
         //draw question or letter
         if (letter == null) {
             drawMultilineText(canvas, question, startX, startY);
-        } else {
-            canvas.drawText("" + userLetter, 0, userLetter.length(), startX + CELL_SIZE / 2, startY + CELL_SIZE / 2, textPaint);
+        } else{
+            canvas.drawText("" + userLetter, 0, userLetter.length(), startX + CELL_SIZE / 2, startY + 2*CELL_SIZE / 3, userTextPoint);
         }
 
         //draw arrow
@@ -754,4 +774,9 @@ public class CustomGameTable extends View {
             return true;
         }
     }
+
+    public interface OnCustomListener {
+        void onEvent();
+    }
+
 }

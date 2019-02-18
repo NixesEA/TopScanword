@@ -37,6 +37,9 @@ public class WinFragment extends Fragment implements View.OnClickListener {
             case R.id.next_lvl_btn:{
 
                 //todo
+                Bundle bundle = new Bundle();
+                bundle.putString("id_scanword","scanword_2");
+                Navigation.findNavController(view).popBackStack(R.id.gameFragment,false);
                 break;
             }
             case R.id.all_lvl_btn:{

@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import androidx.navigation.Navigation;
 import ru.pushapp.scan.CustomGameTable;
 import ru.pushapp.scan.JsonUtil.CellUnit;
 import ru.pushapp.scan.JsonUtil.ObjectJSON;
@@ -27,8 +28,6 @@ import ru.pushapp.scan.JsonUtil.RowUnit;
 import ru.pushapp.scan.R;
 
 public class GameFragment extends Fragment implements KeyboardView.OnKeyboardActionListener {
-
-    ArrayList<CellUnit> items = new ArrayList<>();
 
     String FILE_NAME = "";
 
@@ -48,29 +47,33 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         customGameTable = view.findViewById(R.id.customPanel);
-        FILE_NAME = getArguments().getString("id_scanword");
 
         return view;
     }
 
     @Override
     public void onResume() {
+        FILE_NAME = getArguments().getString("id_scanword");
+
         String json;
         ObjectJSON objectJSON = new ObjectJSON();
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(FILE_NAME, Context.MODE_MULTI_PROCESS);
         json = sharedPreferences.getString("content", null);
-        if (json == null){
+        if (json == null) {
             json = inputStreamToString(getActivity().getResources().openRawResource(
-                    getResources().getIdentifier(FILE_NAME,"raw", getContext().getPackageName())));
+                    getResources().getIdentifier(FILE_NAME, "raw", getContext().getPackageName())));
 
             objectJSON = new Gson().fromJson(json, ObjectJSON.class);
         } else {
-            Type type = new TypeToken<ArrayList<RowUnit>>() {}.getType();
+            Type type = new TypeToken<ArrayList<RowUnit>>() {
+            }.getType();
             objectJSON.rows = new Gson().fromJson(json, type);
         }
 
         customGameTable.setContent(objectJSON.rows);
+
+        customGameTable.setCustomListener(() -> Navigation.findNavController(customGameTable).navigate(R.id.action_gameFragment_to_winFragment));
         super.onResume();
     }
 
@@ -92,13 +95,13 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
         float progress = customGameTable.saveProgress();
         ArrayList<RowUnit> arrayList = customGameTable.saveData();
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(FILE_NAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(arrayList);
         editor.putString("content", json);
         editor.putFloat("progress", progress);
-        editor.commit();
+        editor.apply();
 
     }
 

@@ -45,15 +45,20 @@ public class LevelFragment extends Fragment implements View.OnClickListener {
         actionbar.setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(this);
 
-        ArrayList<LevelData> leaderList = getArrayList();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        RecyclerAdapter adapter = new RecyclerAdapter(getContext(), leaderList);
 
         level_rv = view.findViewById(R.id.level_rv);
         level_rv.setLayoutManager(linearLayoutManager);
-        level_rv.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        ArrayList<LevelData> leaderList = getArrayList();
+        RecyclerAdapter adapter = new RecyclerAdapter(getContext(), leaderList);
+        level_rv.setAdapter(adapter);
+        super.onResume();
     }
 
     @Override
@@ -63,7 +68,7 @@ public class LevelFragment extends Fragment implements View.OnClickListener {
     }
 
     private ArrayList<LevelData> getArrayList() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("scanword_1", Context.MODE_MULTI_PROCESS);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("scanword_1", Context.MODE_PRIVATE);
         int progress = (int) (sharedPreferences.getFloat("progress", 0) * 100);
 
         ArrayList<LevelData> arrayList = new ArrayList<>();
