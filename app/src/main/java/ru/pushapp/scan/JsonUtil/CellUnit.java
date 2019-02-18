@@ -14,6 +14,9 @@ public class CellUnit {
     @SerializedName("way")
     private int way;
 
+    @SerializedName("userLetter")
+    private String userLetter;
+
     // Getter Methods
     public String getLetter() {
         return letter;
@@ -27,8 +30,12 @@ public class CellUnit {
         return way;
     }
 
+    public String getUserLetter() {
+        return userLetter;
+    }
 
     // Setter Methods
+
     public void setLetter(String letter) {
         this.letter = letter;
     }
@@ -41,4 +48,7 @@ public class CellUnit {
         this.way = way;
     }
 
+    public void setUserLetter(String userLetter) {
+        this.userLetter = userLetter;
+    }
 }

@@ -7,9 +7,9 @@ public class LevelData {
     int progress;
     boolean unblocked;
 
-    int res;//content current level
+    String res;//content current level
 
-    public LevelData(String title, String description, int progress, boolean unblocked, int res){
+    public LevelData(String title, String description, int progress, boolean unblocked, String res){
         this.title = title;
         this.description = description;
         this.progress = progress;
@@ -34,7 +34,7 @@ public class LevelData {
         return progress;
     }
 
-    public int getScene() {
+    public String getRes() {
         return res;
     }
 }

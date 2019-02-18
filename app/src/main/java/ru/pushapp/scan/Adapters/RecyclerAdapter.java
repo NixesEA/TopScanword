@@ -1,6 +1,8 @@
 package ru.pushapp.scan.Adapters;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -43,15 +46,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.rvAdap
         @Override
         public void onClick(View view) {
             //todo переход на экран с нужным уровнем
-//            Navigation.findNavController(view).navigate(R.id.action_levelFragment_to_gameFragment);
-            Navigation.findNavController(view).navigate(R.id.action_levelFragment_to_gameFragment2);
+            if (list_items.get(getAdapterPosition()).isUnblocked()){
+                Bundle bundle = new Bundle();
+                bundle.putString("id_scanword",list_items.get(getAdapterPosition()).getRes());
+
+                Navigation.findNavController(view).navigate(R.id.action_levelFragment_to_gameFragment2,bundle);
+            } else {
+                Toast.makeText(context, "Необходимо пройти предыдущие уровни", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
+    private Context context;
     private LayoutInflater inflater;
     private static ArrayList<LevelData> list_items;
 
     public RecyclerAdapter(Context context, ArrayList<LevelData> items) {
+        this.context = context;
         this.list_items = items;
 
         inflater = LayoutInflater.from(context);

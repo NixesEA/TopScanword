@@ -1,44 +1,36 @@
 package ru.pushapp.scan.Fragments;
 
 import android.content.Context;
-import android.inputmethodservice.InputMethodService;
+import android.content.SharedPreferences;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.GridView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
-import ru.pushapp.scan.Adapters.GridAdapter;
 import ru.pushapp.scan.CustomGameTable;
 import ru.pushapp.scan.JsonUtil.CellUnit;
 import ru.pushapp.scan.JsonUtil.ObjectJSON;
-import ru.pushapp.scan.MainActivity;
-import ru.pushapp.scan.MyInputMethodService;
+import ru.pushapp.scan.JsonUtil.RowUnit;
 import ru.pushapp.scan.R;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class GameFragment extends Fragment implements KeyboardView.OnKeyboardActionListener {
 
     ArrayList<CellUnit> items = new ArrayList<>();
+
+    String FILE_NAME = "";
 
     Keyboard mKeyboard;
     CustomGameTable customGameTable;
@@ -56,23 +48,29 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         customGameTable = view.findViewById(R.id.customPanel);
+        FILE_NAME = getArguments().getString("id_scanword");
 
         return view;
     }
 
     @Override
     public void onResume() {
-        //parse questions-json
-        String myJson = inputStreamToString(getActivity().getResources().openRawResource(R.raw.question));
-        ObjectJSON objectJSON = new Gson().fromJson(myJson, ObjectJSON.class);
+        String json;
+        ObjectJSON objectJSON = new ObjectJSON();
 
-        if (items.size() == 0) {
-            for (int i = 0; i < objectJSON.rows.size(); i++) {
-                items.addAll(objectJSON.rows.get(i).cellsInRow);
-            }
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(FILE_NAME, Context.MODE_MULTI_PROCESS);
+        json = sharedPreferences.getString("content", null);
+        if (json == null){
+            json = inputStreamToString(getActivity().getResources().openRawResource(
+                    getResources().getIdentifier(FILE_NAME,"raw", getContext().getPackageName())));
+
+            objectJSON = new Gson().fromJson(json, ObjectJSON.class);
+        } else {
+            Type type = new TypeToken<ArrayList<RowUnit>>() {}.getType();
+            objectJSON.rows = new Gson().fromJson(json, type);
         }
-        customGameTable.setContent(objectJSON.rows);
 
+        customGameTable.setContent(objectJSON.rows);
         super.onResume();
     }
 
@@ -88,16 +86,31 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        float progress = customGameTable.saveProgress();
+        ArrayList<RowUnit> arrayList = customGameTable.saveData();
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(FILE_NAME, Context.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(arrayList);
+        editor.putString("content", json);
+        editor.putFloat("progress", progress);
+        editor.commit();
+
+    }
+
+    @Override
     public void onPress(int i) {
-        if (i == -5){
+        if (i == -5) {
             customGameTable.deleteLetter();
             return;
         }
 
         StringBuilder mComposing = new StringBuilder();
-
-        String value =   mComposing.append((char) i).toString();
-        Log.i("keyboardTEST","onText " + value);
+        String value = mComposing.append((char) i).toString();
 
         customGameTable.setLetter(value);
     }

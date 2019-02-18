@@ -31,6 +31,7 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 
+import ru.pushapp.scan.JsonUtil.CellUnit;
 import ru.pushapp.scan.JsonUtil.RowUnit;
 
 
@@ -44,7 +45,9 @@ public class CustomGameTable extends View {
     private float mScaleFactor = 1.f;
 
     ArrayList<RowUnit> items;
-    Unit[][] unit = new Unit[18][9];
+    Unit[][] unit;
+    float countLetter = 0f;
+    float countRightLetter = 0f;
 
     Canvas localCanvas = null;
 
@@ -97,7 +100,6 @@ public class CustomGameTable extends View {
                 if ((selectedCellX >= 0 && selectedCellY >= 0) && (selectedCellX < (lengthX / CELL_SIZE - 1) && selectedCellY < (lengthY / CELL_SIZE))) {
                     highlightingWord();
                 }
-
                 break;
             }
 
@@ -156,11 +158,14 @@ public class CustomGameTable extends View {
         lengthX = 0;
 
         if (items.size() != 0) {
+            unit = new Unit[items.size()][items.get(0).cellsInRow.size()];
+
             for (int i = 0; i < items.size(); i++) {
                 for (int j = 0; j < items.get(i).cellsInRow.size(); j++) {
                     unit[i][j] = new Unit();
                     unit[i][j].arrowPosition = items.get(i).cellsInRow.get(j).getWay();
                     unit[i][j].letter = items.get(i).cellsInRow.get(j).getLetter();
+                    unit[i][j].userLetter = items.get(i).cellsInRow.get(j).getUserLetter();
                     unit[i][j].question = items.get(i).cellsInRow.get(j).getQuestion();
                     unit[i][j].startX = startX;
                     unit[i][j].startY = startY;
@@ -214,6 +219,8 @@ public class CustomGameTable extends View {
         canvas.save();
         canvas.scale(mScaleFactor, mScaleFactor);
 
+        countLetter = 0;
+        countRightLetter = 0;
         if (unit.length != 0 && CELL_SIZE != 0) {
             for (int i = 0; i < unit.length; i++) {
                 for (int j = 0; j < unit[i].length; j++) {
@@ -234,11 +241,18 @@ public class CustomGameTable extends View {
         float startY = topY + unit.startY;
         Paint background = unit.background;
 
-        try {
-            unit.right = letter.equals(userLetter);
-            //todo check row and column
-        } catch (NullPointerException ignored) {
+        if (letter != null){
+            countLetter++;
         }
+        try {
+            if (letter.equals(userLetter)){
+                unit.right = true;
+                countRightLetter++;
+            } else {
+                unit.right = false;
+            }
+            //todo check row and column
+        } catch (NullPointerException ignored) {}
 
         //draw cell
         canvas.drawRect(startX, startY, startX + CELL_SIZE, startY + GRID_BORDER_WIDTH, linePaint);
@@ -277,6 +291,7 @@ public class CustomGameTable extends View {
     private void drawArrow(Canvas canvas, int arrowPosition, float startX, float startY) {
         float arrowLength = CELL_SIZE / 6;
 
+        //+1 убирает торчащие углы
         float fstartX = 1;
         float fstartY = 0;
         float fstopX = 0;
@@ -294,7 +309,6 @@ public class CustomGameTable extends View {
         float tsstopX = 0;
         float tsstopY = 0;
 
-        //+1 убирает торчащие углы
         switch (arrowPosition) {
             case 1: {
                 fstartX += startX;
@@ -325,7 +339,7 @@ public class CustomGameTable extends View {
                 break;
             }
             case 3: {
-                fstartX += startX + CELL_SIZE/2;
+                fstartX += startX + CELL_SIZE / 2;
                 fstartY += startY + 0;
                 fstopX += fstartX;
                 fstopY += fstartY + arrowLength;
@@ -339,7 +353,7 @@ public class CustomGameTable extends View {
                 break;
             }
             case 4: {
-                fstartX += startX + CELL_SIZE/2;
+                fstartX += startX + CELL_SIZE / 2;
                 fstartY += startY + 0;
                 fstopX += fstartX;
                 fstopY += fstartY + arrowLength;
@@ -382,7 +396,7 @@ public class CustomGameTable extends View {
             }
             case 7: {
                 fstartX += startX;
-                fstartY += startY + CELL_SIZE/2;
+                fstartY += startY + CELL_SIZE / 2;
                 fstopX += fstartX + arrowLength;
                 fstopY += fstartY;
 
@@ -396,7 +410,7 @@ public class CustomGameTable extends View {
             }
             case 8: {
                 fstartX += startX;
-                fstartY += startY + CELL_SIZE/2;
+                fstartY += startY + CELL_SIZE / 2;
                 fstopX += fstartX + arrowLength;
                 fstopY += fstartY;
 
@@ -411,8 +425,8 @@ public class CustomGameTable extends View {
             case 9: {
                 fstartX += startX;
                 fstartY += startY + CELL_SIZE;
-                fstopX += fstartX + 2* arrowLength;
-                fstopY += fstartY - 2 *arrowLength;
+                fstopX += fstartX + 2 * arrowLength;
+                fstopY += fstartY - 2 * arrowLength;
 
                 sstartX += fstopX;
                 sstartY += fstopY;
@@ -439,8 +453,8 @@ public class CustomGameTable extends View {
             case 11: {
                 fstartX += startX + CELL_SIZE;
                 fstartY += startY + CELL_SIZE;
-                fstopX += fstartX - 2* arrowLength;
-                fstopY += fstartY - 2* arrowLength;
+                fstopX += fstartX - 2 * arrowLength;
+                fstopY += fstartY - 2 * arrowLength;
 
                 sstartX += fstopX;
                 sstartY += fstopY;
@@ -453,8 +467,8 @@ public class CustomGameTable extends View {
             case 12: {
                 fstartX += startX + CELL_SIZE;
                 fstartY += startY + CELL_SIZE;
-                fstopX += fstartX - 2* arrowLength;
-                fstopY += fstartY - 2* arrowLength;
+                fstopX += fstartX - 2 * arrowLength;
+                fstopY += fstartY - 2 * arrowLength;
 
                 sstartX += fstopX;
                 sstartY += fstopY;
@@ -466,7 +480,7 @@ public class CustomGameTable extends View {
             }
             case 13: {
                 fstartX += startX + CELL_SIZE;
-                fstartY += startY + CELL_SIZE/2;
+                fstartY += startY + CELL_SIZE / 2;
                 fstopX += fstartX - arrowLength;
                 fstopY += fstartY;
 
@@ -479,7 +493,7 @@ public class CustomGameTable extends View {
                 break;
             }
             case 14: {
-                fstartX += startX + CELL_SIZE/2;
+                fstartX += startX + CELL_SIZE / 2;
                 fstartY += startY + CELL_SIZE;
                 fstopX += fstartX;
                 fstopY += fstartY - arrowLength;
@@ -499,7 +513,7 @@ public class CustomGameTable extends View {
         tstopX += tstartX - arrowLength / 2;
         tstopY += tstartY - arrowLength / 2;
 
-        if (arrowPosition % 2 == 0){
+        if (arrowPosition % 2 == 0) {
             tsstopX += tstartX - arrowLength / 2;
             tsstopY += tstartY + arrowLength / 2;
         } else {
@@ -508,7 +522,7 @@ public class CustomGameTable extends View {
         }
 
 
-        canvas.drawLine(fstartX,fstartY,fstopX,fstopY, arrowPaint);
+        canvas.drawLine(fstartX, fstartY, fstopX, fstopY, arrowPaint);
 
         canvas.drawLine(sstartX, sstartY, sstopX, sstopY, arrowPaint);
 
@@ -618,6 +632,11 @@ public class CustomGameTable extends View {
             if (unit[selectedCellY][selectedCellX].letter != null) {
                 unit[selectedCellY][selectedCellX].userLetter = letter.toUpperCase();
                 unit[selectedCellY][selectedCellX].inFocus = false;
+                if(unit[selectedCellY][selectedCellX].letter.equals(unit[selectedCellY][selectedCellX].userLetter)){
+                    unit[selectedCellY][selectedCellX].right = true;
+                } else {
+                    unit[selectedCellY][selectedCellX].right = false;
+                }
 
                 if (wordOrientation) {
                     if (unit[selectedCellY][selectedCellX + 1].background != questionBackgroundPaint) {
@@ -652,6 +671,7 @@ public class CustomGameTable extends View {
                 unit[selectedCellY][selectedCellX].userLetter = "";
                 unit[selectedCellY][selectedCellX].selected = true;
                 unit[selectedCellY][selectedCellX].inFocus = false;
+                unit[selectedCellY][selectedCellX].right = false;
 
                 if (wordOrientation) {
                     if (unit[selectedCellY][selectedCellX - 1].background != questionBackgroundPaint) {
@@ -676,6 +696,29 @@ public class CustomGameTable extends View {
         invalidate();
     }
 
+    public float saveProgress() {
+        return countRightLetter/countLetter;
+    }
+
+    public ArrayList<RowUnit> saveData(){
+        items.clear();
+        if (unit.length != 0 && CELL_SIZE != 0) {
+            for (int i = 0; i < unit.length; i++) {
+                RowUnit rowUnit = new RowUnit();
+                for (int j = 0; j < unit[i].length; j++) {
+                    CellUnit cellUnit = new CellUnit();
+                    cellUnit.setUserLetter(unit[i][j].userLetter);
+                    cellUnit.setLetter(unit[i][j].letter);
+                    cellUnit.setQuestion(unit[i][j].question);
+                    cellUnit.setWay(unit[i][j].arrowPosition);
+
+                    rowUnit.cellsInRow.add(cellUnit);
+                }
+                items.add(rowUnit);
+            }
+        }
+        return items;
+    }
 
     private class Unit {
         boolean right = false;

@@ -1,5 +1,7 @@
 package ru.pushapp.scan.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import ru.pushapp.scan.Adapters.LevelData;
+import ru.pushapp.scan.App;
 import ru.pushapp.scan.R;
 import ru.pushapp.scan.Adapters.RecyclerAdapter;
 
@@ -56,15 +59,19 @@ public class LevelFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        App.getAllRaw();
     }
 
     private ArrayList<LevelData> getArrayList() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("scanword_1", Context.MODE_MULTI_PROCESS);
+        int progress = (int) (sharedPreferences.getFloat("progress", 0) * 100);
+
         ArrayList<LevelData> arrayList = new ArrayList<>();
-        arrayList.add(new LevelData("Сканворд №1", "Тематика: Общая", 73, true, 0));
-        arrayList.add(new LevelData("Сканворд №2", "Тематика: Общая", 15, true, 0));
-        arrayList.add(new LevelData("Сканворд №3", "Тематика: Общая", 0, true, 0));
-        arrayList.add(new LevelData("Сканворд №4", "Тематика: Общая", 0, false, 0));
-        arrayList.add(new LevelData("Сканворд №5", "Тематика: Общая", 0, false, 0));
+        arrayList.add(new LevelData("Сканворд №1", "Тематика: Общая", 73, true, "scanword_1"));
+        arrayList.add(new LevelData("Сканворд №2", "Тематика: Общая", 15, true, "scanword_2"));
+        arrayList.add(new LevelData("Сканворд №3", "Тематика: Общая", progress, true, ""));
+        arrayList.add(new LevelData("Сканворд №4", "Тематика: Общая", 0, false, ""));
+        arrayList.add(new LevelData("Сканворд №5", "Тематика: Общая", 0, false, ""));
         return arrayList;
     }
 
