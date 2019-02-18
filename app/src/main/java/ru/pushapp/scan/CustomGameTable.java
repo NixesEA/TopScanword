@@ -277,460 +277,234 @@ public class CustomGameTable extends View {
     private void drawArrow(Canvas canvas, int arrowPosition, float startX, float startY) {
         float arrowLength = CELL_SIZE / 6;
 
+        float fstartX = 1;
         float fstartY = 0;
-        float fstartX = 0;
-        float fstopY = 0;
         float fstopX = 0;
+        float fstopY = 0;
 
-        float sstartY = 0;
         float sstartX = 0;
-        float sstopY = 0;
+        float sstartY = 0;
         float sstopX = 0;
+        float sstopY = 0;
 
-        float tstartY = 0;
         float tstartX = 0;
-        float tstopY = 0;
+        float tstartY = 0;
         float tstopX = 0;
-        float tsstopY = 0;
+        float tstopY = 0;
         float tsstopX = 0;
+        float tsstopY = 0;
 
         //+1 убирает торчащие углы
         switch (arrowPosition) {
             case 1: {
-                fstartX += startX + 1;
+                fstartX += startX;
                 fstartY += startY + 0;
                 fstopX += fstartX + arrowLength;
                 fstopY += fstartY + arrowLength;
 
-//                canvas.drawLine(startX + 1, startY, startX + arrowLength, startY + arrowLength, arrowPaint);
-//                startX += arrowLength;
-//                startY += arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX;
                 sstopY += sstartY + arrowLength;
-//                canvas.drawLine(startX, startY, startX, startY + arrowLength, arrowPaint);
-//                startY += arrowLength;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX + arrowLength / 2;
-                tsstopY += tstartY - arrowLength / 2;
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
 
                 break;
             }
             case 2: {
-                fstartX += startX + 1;
+                fstartX += startX;
                 fstartY += startY + 0;
                 fstopX += fstartX + arrowLength;
                 fstopY += fstartY + arrowLength;
 
-//                canvas.drawLine(startX + 1, startY, startX + arrowLength, startY + arrowLength, arrowPaint);
-//                startX += arrowLength;
-//                startY += arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX + arrowLength;
                 sstopY += sstartY;
 
-//                canvas.drawLine(startX, startY, startX + arrowLength, startY , arrowPaint);
-//                startX += arrowLength;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX - arrowLength / 2;
-                tsstopY += tstartY + arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
                 break;
             }
             case 3: {
-                fstartX += startX + 1 + CELL_SIZE/2;
+                fstartX += startX + CELL_SIZE/2;
                 fstartY += startY + 0;
                 fstopX += fstartX;
                 fstopY += fstartY + arrowLength;
 
-//                startX += CELL_SIZE/2;
-//                canvas.drawLine(startX, startY, startX, startY + arrowLength, arrowPaint);
-//                startY += arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX;
                 sstopY += sstartY;
-
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX + arrowLength / 2;
-                tsstopY += tstartY - arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
 
                 break;
             }
             case 4: {
-                fstartX += startX + 1 + CELL_SIZE/2;
+                fstartX += startX + CELL_SIZE/2;
                 fstartY += startY + 0;
                 fstopX += fstartX;
                 fstopY += fstartY + arrowLength;
 
-//                startX += CELL_SIZE/2;
-//                canvas.drawLine(startX, startY, startX, startY + arrowLength, arrowPaint);
-//                startY += arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX + arrowLength;
                 sstopY += sstartY;
-
-//                canvas.drawLine(startX, startY, startX + arrowLength, startY , arrowPaint);
-//                startX += arrowLength;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX - arrowLength / 2;
-                tsstopY += tstartY + arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
 
                 break;
             }
             case 5: {
-                fstartX += startX + 1 + CELL_SIZE;
+                fstartX += startX + CELL_SIZE;
                 fstartY += startY + 0;
                 fstopX += fstartX - arrowLength;
                 fstopY += fstartY + arrowLength;
 
-//                startX += CELL_SIZE;
-//                canvas.drawLine(startX, startY, startX - arrowLength, startY + arrowLength, arrowPaint);
-//                startX -= arrowLength;
-//                startY += arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX;
                 sstopY += sstartY + arrowLength;
 
-//                canvas.drawLine(startX, startY, startX, startY + arrowLength , arrowPaint);
-//                startY += arrowLength;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX + arrowLength / 2;
-                tsstopY += tstartY - arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
                 break;
             }
             case 6: {
-                fstartX += startX + 1 + CELL_SIZE;
+                fstartX += startX + CELL_SIZE;
                 fstartY += startY + 0;
                 fstopX += fstartX - 2 * arrowLength;
                 fstopY += fstartY + 2 * arrowLength;
 
-//                startX += CELL_SIZE;
-//                canvas.drawLine(startX, startY, startX - 2 * arrowLength, startY + 2 * arrowLength, arrowPaint);
-//                startX -= 2 * arrowLength;
-//                startY += 2 * arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX + 1.5 * arrowLength;
                 sstopY += sstartY;
 
-//                canvas.drawLine(startX, startY, (float) (startX + 1.5 * arrowLength), startY , arrowPaint);
-//                startX += 1.5 * arrowLength;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX - arrowLength / 2;
-                tsstopY += tstartY + arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
                 break;
             }
             case 7: {
-                fstartX += startX + 1;
+                fstartX += startX;
                 fstartY += startY + CELL_SIZE/2;
                 fstopX += fstartX + arrowLength;
                 fstopY += fstartY;
 
-//                startY += CELL_SIZE/2;
-//                canvas.drawLine(startX, startY, startX + arrowLength, startY, arrowPaint);
-//                startX += arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX;
                 sstopY += sstartY + arrowLength;
-
-//                canvas.drawLine(startX, startY, startX, startY + arrowLength, arrowPaint);
-//                startY += arrowLength;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX + arrowLength / 2;
-                tsstopY += tstartY - arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
 
                 break;
             }
             case 8: {
-                fstartX += startX + 1;
+                fstartX += startX;
                 fstartY += startY + CELL_SIZE/2;
                 fstopX += fstartX + arrowLength;
                 fstopY += fstartY;
 
-
-//                startY += CELL_SIZE/2;
-//                canvas.drawLine(startX, startY, startX + arrowLength, startY, arrowPaint);
-//                startX += arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX;
                 sstopY += sstartY;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX - arrowLength / 2;
-                tsstopY += tstartY + arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
 
                 break;
             }
             case 9: {
-                fstartX += startX + 1;
+                fstartX += startX;
                 fstartY += startY + CELL_SIZE;
                 fstopX += fstartX + 2* arrowLength;
                 fstopY += fstartY - 2 *arrowLength;
 
-//                startY += CELL_SIZE;
-//                canvas.drawLine(startX, startY, startX + 2 * arrowLength, startY - 2 * arrowLength, arrowPaint);
-//                startX += 2* arrowLength;
-//                startY -= 2* arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX;
                 sstopY += sstartY + 1.5 * arrowLength;
-
-//                canvas.drawLine(startX, startY, startX, (float) (startY + 1.5 * arrowLength), arrowPaint);
-//                startY += 1.5 * arrowLength;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX + arrowLength / 2;
-                tsstopY += tstartY - arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
 
                 break;
             }
             case 10: {
-                fstartX += startX + 1;
+                fstartX += startX;
                 fstartY += startY + CELL_SIZE;
                 fstopX += fstartX + arrowLength;
                 fstopY += fstartY - arrowLength;
 
-//                startY += CELL_SIZE;
-//                canvas.drawLine(startX, startY, startX + arrowLength, startY - arrowLength, arrowPaint);
-//                startX += arrowLength;
-//                startY -= arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX + 1.5 * arrowLength;
                 sstopY += sstartY;
-
-//                canvas.drawLine(startX, startY, (float) (startX + 1.5 * arrowLength), startY, arrowPaint);
-//                startX += 1.5 * arrowLength;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX - arrowLength / 2;
-                tsstopY += tstartY + arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
 
                 break;
             }
             case 11: {
-                fstartX += startX + 1 + CELL_SIZE;
+                fstartX += startX + CELL_SIZE;
                 fstartY += startY + CELL_SIZE;
                 fstopX += fstartX - 2* arrowLength;
                 fstopY += fstartY - 2* arrowLength;
 
-//                startY += CELL_SIZE;
-//                startX += CELL_SIZE;
-//                canvas.drawLine(startX, startY, startX - 2 * arrowLength, startY - 2 * arrowLength, arrowPaint);
-//                startX -= 2* arrowLength;
-//                startY -= 2* arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX;
                 sstopY += sstartY + 1.5 * arrowLength;
-
-//                canvas.drawLine(startX, startY, startX, (float) (startY + 1.5 * arrowLength), arrowPaint);
-//                startY += 1.5 * arrowLength;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX + arrowLength / 2;
-                tsstopY += tstartY - arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
 
                 break;
             }
             case 12: {
-                fstartX += startX + 1 + CELL_SIZE;
+                fstartX += startX + CELL_SIZE;
                 fstartY += startY + CELL_SIZE;
                 fstopX += fstartX - 2* arrowLength;
                 fstopY += fstartY - 2* arrowLength;
 
-//                startY += CELL_SIZE;
-//                startX += CELL_SIZE;
-//                canvas.drawLine(startX, startY, startX - 2 * arrowLength, startY - 2 * arrowLength, arrowPaint);
-//                startX -= 2* arrowLength;
-//                startY -= 2* arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX + 1.5 * arrowLength;
                 sstopY += sstartY;
-
-//                canvas.drawLine(startX, startY, (float) (startX + 1.5 * arrowLength), startY , arrowPaint);
-//                startX += 1.5 * arrowLength;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX - arrowLength / 2;
-                tsstopY += tstartY + arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
 
                 break;
             }
             case 13: {
-                fstartX += startX + 1 + CELL_SIZE/2;
-                fstartY += startY + CELL_SIZE;
-                fstopX += fstartX;
-                fstopY += fstartY - arrowLength;
-
-//                startY += CELL_SIZE;
-//                startX += CELL_SIZE/2;
-//                canvas.drawLine(startX, startY, startX, startY - arrowLength, arrowPaint);
-//                startY -= arrowLength;
-
-                sstartX += fstopX;
-                sstartY += fstopY;
-                sstopX += sstartX + 1.5 * arrowLength;
-                sstopY += sstartY;
-
-//                canvas.drawLine(startX, startY, (float) (startX + 1.5 * arrowLength), startY , arrowPaint);
-//                startX += 1.5 * arrowLength;
-
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
-
-                tsstopX += tstartX - arrowLength / 2;
-                tsstopY += tstartY + arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY + arrowLength / 2, arrowPaint);
-
-                break;
-            }
-            case 14: {
-                fstartX += startX + 1 + CELL_SIZE;
+                fstartX += startX + CELL_SIZE;
                 fstartY += startY + CELL_SIZE/2;
                 fstopX += fstartX - arrowLength;
                 fstopY += fstartY;
 
-//                startY += CELL_SIZE/2;
-//                startX += CELL_SIZE;
-//                canvas.drawLine(startX, startY, startX - arrowLength, startY, arrowPaint);
-//                startX -= arrowLength;
-
                 sstartX += fstopX;
                 sstartY += fstopY;
+
                 sstopX += sstartX;
                 sstopY += sstartY + 1.5 * arrowLength;
 
-//                canvas.drawLine(startX, startY, startX, (float) (startY + 1.5 * arrowLength), arrowPaint);
-//                startY += 1.5 * arrowLength;
+                break;
+            }
+            case 14: {
+                fstartX += startX + CELL_SIZE/2;
+                fstartY += startY + CELL_SIZE;
+                fstopX += fstartX;
+                fstopY += fstartY - arrowLength;
 
-                tstartY += sstopY;
-                tstartX += sstopX;
-                tstopX += tstartX - arrowLength / 2;
-                tstopY += tstartY - arrowLength / 2;
+                sstartX += fstopX;
+                sstartY += fstopY;
 
-                tsstopX += tstartX + arrowLength / 2;
-                tsstopY += tstartY - arrowLength / 2;
-
-//                canvas.drawLine(startX, startY, startX - arrowLength / 2, startY - arrowLength / 2, arrowPaint);
-//                canvas.drawLine(startX, startY, startX + arrowLength / 2, startY - arrowLength / 2, arrowPaint);
+                sstopX += sstartX + 1.5 * arrowLength;
+                sstopY += sstartY;
 
                 break;
             }
+        }
+
+        tstartY += sstopY;
+        tstartX += sstopX;
+        tstopX += tstartX - arrowLength / 2;
+        tstopY += tstartY - arrowLength / 2;
+
+        if (arrowPosition % 2 == 0){
+            tsstopX += tstartX - arrowLength / 2;
+            tsstopY += tstartY + arrowLength / 2;
+        } else {
+            tsstopX += tstartX + arrowLength / 2;
+            tsstopY += tstartY - arrowLength / 2;
         }
 
 
