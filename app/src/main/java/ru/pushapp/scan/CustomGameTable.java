@@ -101,6 +101,9 @@ public class CustomGameTable extends View {
                 startMoveX = event.getRawX();
                 startMoveY = event.getRawY();
 
+                if (startMoveY > topY + lengthY || startMoveX > topX + lengthX || startMoveY < topY || startMoveX < topX){
+                    break;
+                }
                 //get start coord selected cell
                 selectedCellX = (int) ((event.getX() / mScaleFactor - topX) / CELL_SIZE);
                 selectedCellY = (int) ((event.getY() / mScaleFactor - topY) / CELL_SIZE);
@@ -691,6 +694,9 @@ public class CustomGameTable extends View {
     }
 
     public void deleteLetter() {
+        if (selectedCellY == -1 || selectedCellX == -1){
+            return;
+        }
         try {
             if (unit[selectedCellY][selectedCellX].letter != null) {
                 unit[selectedCellY][selectedCellX].userLetter = "";

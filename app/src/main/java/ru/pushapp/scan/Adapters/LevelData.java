@@ -18,7 +18,7 @@ public class LevelData {
         this.res = res;
     }
 
-    public boolean isUnblocked() {
+    public boolean getUnblocked() {
         return unblocked;
     }
 

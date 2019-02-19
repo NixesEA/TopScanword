@@ -31,6 +31,7 @@ import ru.pushapp.scan.R;
 public class GameFragment extends Fragment implements KeyboardView.OnKeyboardActionListener {
 
     String FILE_NAME = "";
+    int index = 0;
 
     Keyboard mKeyboard;
     CustomGameTable customGameTable;
@@ -54,7 +55,7 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
 
     @Override
     public void onResume() {
-        int index = getArguments().getInt("id_scanword");
+        index = getArguments().getInt("id_scanword");
         FILE_NAME = getArguments().getString("file_name");
 
         String json;
@@ -76,6 +77,11 @@ public class GameFragment extends Fragment implements KeyboardView.OnKeyboardAct
         customGameTable.setCustomListener(new CustomGameTable.OnCustomListener() {
             @Override
             public void onEvent() {
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("scanword_" + (index + 1), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("unblocked",true);
+                editor.apply();
+
                 Bundle bundle = new Bundle();
                 bundle.putInt("id_scanword",index);
 

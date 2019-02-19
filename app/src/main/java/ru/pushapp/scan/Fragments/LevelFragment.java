@@ -80,6 +80,9 @@ public class LevelFragment extends Fragment implements View.OnClickListener{
 
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences(levelData.getRes(), Context.MODE_PRIVATE);
             levelData.setProgress((int) (sharedPreferences.getFloat("progress", 0) * 100));
+            if (!levelData.getUnblocked()){
+                levelData.setUnblocked((sharedPreferences.getBoolean("unblocked", false)));
+            }
 
             arrayList.add(levelData);
         }

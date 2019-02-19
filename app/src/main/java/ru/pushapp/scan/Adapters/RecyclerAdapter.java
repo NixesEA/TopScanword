@@ -1,7 +1,6 @@
 package ru.pushapp.scan.Adapters;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -46,7 +45,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.rvAdap
         @Override
         public void onClick(View view) {
             //todo переход на экран с нужным уровнем
-            if (list_items.get(getAdapterPosition()).isUnblocked()){
+            if (list_items.get(getAdapterPosition()).getUnblocked()){
                 Bundle bundle = new Bundle();
                 bundle.putInt("id_scanword",getAdapterPosition());
                 bundle.putString("file_name",list_items.get(getAdapterPosition()).getRes());
@@ -87,7 +86,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.rvAdap
         holder.progressTv.setText(progressTV);
         holder.progressBar.setProgress(progress);
 
-        if (list_items.get(position).isUnblocked()) {
+        if (list_items.get(position).getUnblocked()) {
             if (progress == 0){
                 holder.lockImage.setVisibility(View.VISIBLE);
                 holder.progressTv.setVisibility(View.GONE);

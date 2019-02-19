@@ -1,5 +1,7 @@
 package ru.pushapp.scan.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,7 +40,6 @@ public class WinFragment extends Fragment implements View.OnClickListener {
         allLvlBtn = view.findViewById(R.id.all_lvl_btn);
         allLvlBtn.setOnClickListener(this);
 
-
         return view;
     }
 
@@ -53,7 +54,7 @@ public class WinFragment extends Fragment implements View.OnClickListener {
                 if (index + 1 >= App.getCrosswordSize()) {
                     Navigation.findNavController(view).popBackStack(R.id.levelFragment, false);
                 } else {
-                    Navigation.findNavController(view).navigate(R.id.action_gameFragment_to_winFragment, bundle);
+                    Navigation.findNavController(view).navigate(R.id.action_levelFragment_to_gameFragment, bundle);
                 }
                 break;
             }
