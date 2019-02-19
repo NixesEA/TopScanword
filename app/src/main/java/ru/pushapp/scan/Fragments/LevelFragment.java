@@ -60,10 +60,10 @@ public class LevelFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onResume() {
-        leaderList.clear();
         level_rv.setAdapter(null);
 
-        leaderList = getArrayList();
+//        leaderList =
+        getArrayList();
         adapter = new RecyclerAdapter(getContext(), leaderList);
 
         level_rv.setAdapter(adapter);
@@ -71,10 +71,12 @@ public class LevelFragment extends Fragment implements View.OnClickListener{
     }
 
 
-    private ArrayList<LevelData> getArrayList() {
+    private void getArrayList() {
 
+        leaderList.clear();
 
         ArrayList<LevelData> arrayList = new ArrayList<>();
+        int size = App.getCrosswordSize();
         for (int i = 0; i < App.getCrosswordSize(); i++){
             LevelData levelData = App.getCrosswordInfo(i);
 
@@ -84,10 +86,10 @@ public class LevelFragment extends Fragment implements View.OnClickListener{
                 levelData.setUnblocked((sharedPreferences.getBoolean("unblocked", false)));
             }
 
-            arrayList.add(levelData);
+            leaderList.add(levelData);
         }
 
-        return arrayList;
+        return;
     }
 
     @Override

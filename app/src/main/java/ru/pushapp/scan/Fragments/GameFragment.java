@@ -6,24 +6,20 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import androidx.navigation.Navigation;
 import ru.pushapp.scan.App;
 import ru.pushapp.scan.CustomGameTable;
-import ru.pushapp.scan.JsonUtil.CellUnit;
 import ru.pushapp.scan.JsonUtil.ObjectJSON;
 import ru.pushapp.scan.JsonUtil.RowUnit;
 import ru.pushapp.scan.R;

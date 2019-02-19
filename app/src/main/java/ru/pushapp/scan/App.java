@@ -2,11 +2,8 @@ package ru.pushapp.scan;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +16,7 @@ import ru.pushapp.scan.JsonUtil.RowUnit;
 
 public class App extends Application {
 
-    static ArrayList<ObjectJSON> crosswordList = new ArrayList<>();
+    static ArrayList<ObjectJSON> crosswordList;
 
     @Override
     public void onCreate() {
@@ -27,6 +24,8 @@ public class App extends Application {
     }
 
     public static ArrayList<ObjectJSON> initCrosswordList(Context context) {
+        crosswordList = new ArrayList<>();
+
         Field[] fields = R.raw.class.getFields();
         for (Field field : fields) {
             String json = inputStreamToString(context.getResources().openRawResource(
