@@ -12,7 +12,7 @@ public class CellUnit {
     private String question;
 
     @SerializedName("way")
-    private int way;
+    private int[] way;
 
     @SerializedName("userLetter")
     private String userLetter;
@@ -26,7 +26,7 @@ public class CellUnit {
         return question;
     }
 
-    public int getWay() {
+    public int[] getWay() {
         return way;
     }
 
@@ -44,7 +44,7 @@ public class CellUnit {
         this.question = question;
     }
 
-    public void setWay(int way) {
+    public void setWay(int[] way) {
         this.way = way;
     }
 

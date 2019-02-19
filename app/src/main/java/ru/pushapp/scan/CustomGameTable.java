@@ -214,7 +214,7 @@ public class CustomGameTable extends View {
         questionBackgroundPaint.setColor(getResources().getColor(R.color.enableButton));
 
         textPaint.setColor(getResources().getColor(R.color.darkBlack));
-        textPaint.setTextSize(26);
+        textPaint.setTextSize(22);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setLinearText(true);
 
@@ -305,7 +305,12 @@ public class CustomGameTable extends View {
         }
 
         //draw arrow
-        drawArrow(canvas, unit.arrowPosition, startX, startY);
+        try {
+
+            for (int i = 0; i < unit.arrowPosition.length; i++){
+                drawArrow(canvas, unit.arrowPosition[i], startX, startY);
+            }
+        }catch (NullPointerException ignored){}
     }
 
     private void drawArrow(Canvas canvas, int arrowPosition, float startX, float startY) {
@@ -745,7 +750,7 @@ public class CustomGameTable extends View {
         boolean inFocus = false;
         boolean selected = false;
 
-        int arrowPosition = 0;
+        int[] arrowPosition = {0,0};
 
         String letter;
         String question;

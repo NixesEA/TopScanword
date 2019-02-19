@@ -8,7 +8,326 @@
       "row": [
         {
           "letter": null,
-          "question": "... Терешкова",
+          "question": "Римский композитор",
+          "way": null
+        },
+        {
+          "letter": "Т",
+          "question": null,
+          "way": ["7"]
+        },
+        {
+          "letter": null,
+          "question": "Единорог",
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "... - город",
+          "way": null
+        },
+        {
+          "letter": "Л",
+          "question": null,
+          "way": ["13"]
+        },
+        {
+          "letter": null,
+          "question": "Часть головы",
+          "way": null
+        },
+        {
+          "letter": "П",
+          "question": null,
+          "way": ["13"]
+        },
+        {
+          "letter": null,
+          "question": "Кто открыл Северный полюс?",
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Танец молдаван",
+          "way": null
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "letter": null,
+          "question": "Город на Аляске",
+          "way": null
+        },
+        {
+          "letter": "А",
+          "question": null,
+          "way": ["8"]
+        },
+        {
+          "letter": "Н",
+          "question": null,
+          "way": ["3"]
+        },
+        {
+          "letter": "К",
+          "question": null,
+          "way": ["3"]
+        },
+        {
+          "letter": "О",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "И",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Д",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Ж",
+          "question": null,
+          "way": ["3"]
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "letter": null,
+          "question": "Помощник восточного военачальника",
+          "way": null
+        },
+        {
+          "letter": "Н",
+          "question": null,
+          "way": ["8"]
+        },
+        {
+          "letter": "А",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "И",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Б",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Шумиха",
+          "way": null
+        },
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Звание",
+          "way": null
+        },
+        {
+          "letter": "О",
+          "question": null,
+          "way": null
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "letter": "Ф",
+          "question": null,
+          "way": ["14"]
+        },
+        {
+          "letter": "Е",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Т",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Суп из моллюсков",
+          "way": null
+        },
+        {
+          "letter": "Б",
+          "question": null,
+          "way": ["3","8"]
+        },
+        {
+          "letter": "И",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "С",
+          "question": null,
+          "way": ["3"]
+        },
+        {
+          "letter": "К",
+          "question": null,
+          "way": null
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "letter": null,
+          "question": "Щеголь, франт",
+          "way": null
+        },
+        {
+          "letter": "Е",
+          "question": null,
+          "way": ["10"]
+        },
+        {
+          "letter": "В",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "А",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": ".. безбрачия",
+          "way": null
+        },
+        {
+          "letter": "У",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Гора на Крите",
+          "way": null
+        },
+        {
+          "letter": "А",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Часть слога",
+          "way": null
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "letter": null,
+          "question": "Райская дама",
+          "way": null
+        },
+        {
+          "letter": "В",
+          "question": null,
+          "way": ["10"]
+        },
+        {
+          "letter": "А",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Й",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "О",
+          "question": null,
+          "way": ["3"]
+        },
+        {
+          "letter": "М",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "И",
+          "question": null,
+          "way": ["3"]
+        },
+        {
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Г",
+          "question": null,
+          "way": ["3"]
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "letter": null,
+          "question": "Штат в США",
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Столица в Северной Америке",
+          "way": null
+        },
+        {
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Куба",
+          "way": null
+        },
+        {
+          "letter": "Б",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Стиль в исскустве",
           "way": null
         },
         {
@@ -18,7 +337,75 @@
         },
         {
           "letter": null,
-          "question": "Значительная ...",
+          "question": "Морское судно",
+          "way": null
+        },
+        {
+          "letter": "О",
+          "question": null,
+          "way": null
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "letter": null,
+          "question": "Вид артикуляции в музыке",
+          "way": null
+        },
+        {
+          "letter": "М",
+          "question": null,
+          "way": ["3"]
+        },
+        {
+          "letter": null,
+          "question": "Сын Зевса",
+          "way": null
+        },
+        {
+          "letter": "Г",
+          "question": null,
+          "way": ["3","8"]
+        },
+        {
+          "letter": "E",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Р",
+          "question": null,
+          "way": ["3"]
+        },
+        {
+          "letter": "А",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "К",
+          "question": null,
+          "way": ["3"]
+        },
+        {
+          "letter": "Л",
+          "question": null,
+          "way": null
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "letter": "Л",
+          "question": null,
+          "way": ["4"]
+        },
+        {
+          "letter": "Е",
+          "question": null,
           "way": null
         },
         {
@@ -27,28 +414,33 @@
           "way": null
         },
         {
-          "letter": null,
-          "question": "Наследственность",
-          "way": null
-        },
-        {
-          "letter": "И",
-          "question": null,
-          "way": null
-        },
-        {
-          "letter": null,
-          "question": "Информ. телепередача",
-          "way": null
-        },
-        {
           "letter": "А",
           "question": null,
           "way": null
         },
         {
+          "letter": "Т",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "О",
+          "question": null,
+          "way": null
+        },
+        {
           "letter": null,
-          "question": "... Барбюс",
+          "question": "Украинский писатель",
+          "way": null
+        },
+        {
+          "letter": "Л",
+          "question": null,
+          "way": ["8"]
+        },
+        {
+          "letter": "Е",
+          "question": null,
           "way": null
         }
       ]
@@ -56,49 +448,196 @@
     {
       "row": [
         {
+          "letter": null,
+          "question": "Стадион в Москве",
+          "way": null
+        },
+        {
+          "letter": "Х",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Верблюд",
+          "way": null
+        },
+        {
           "letter": "В",
           "question": null,
-          "way": "1"
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Убийца Авеля",
+          "way": null
+        },
+        {
+          "letter": "К",
+          "question": null,
+          "way": ["8"]
         },
         {
           "letter": "А",
           "question": null,
-          "way": "2"
-        },
-        {
-          "letter": "Л",
-          "question": null,
-          "way": "3"
-        },
-        {
-          "letter": "Е",
-          "question": null,
-          "way": "4"
-        },
-        {
-          "letter": "Н",
-          "question": null,
-          "way": "5"
-        },
-        {
-          "letter": "Т",
-          "question": null,
-          "way": "6"
+          "way": null
         },
         {
           "letter": "И",
           "question": null,
-          "way": "7"
+          "way": null
         },
         {
           "letter": "Н",
           "question": null,
-          "way": "8"
+          "way": null
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "letter": "Д",
+          "question": null,
+          "way": ["4"]
+        },
+        {
+          "letter": "И",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Н",
+          "question": null,
+          "way": ["3"]
         },
         {
           "letter": "А",
           "question": null,
-          "way": "9"
+          "way": null
+        },
+        {
+          "letter": "М",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "О",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "..-мезон",
+          "way": null
+        },
+        {
+          "letter": "П",
+          "question": null,
+          "way": ["8"]
+        },
+        {
+          "letter": "И",
+          "question": null,
+          "way": null
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "letter": null,
+          "question": "Приток Енисея",
+          "way": null
+        },
+        {
+          "letter": "К",
+          "question": null,
+          "way": ["8"]
+        },
+        {
+          "letter": "А",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Н",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Энцефалитный ...",
+          "way": null
+        },
+        {
+          "letter": "К",
+          "question": null,
+          "way": ["8"]
+        },
+        {
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Е",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Щ",
+          "question": null,
+          "way": null
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "letter": null,
+          "question": "Орудие для пахоты",
+          "way": null
+        },
+        {
+          "letter": "О",
+          "question": null,
+          "way": ["8"]
+        },
+        {
+          "letter": "Р",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "А",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "Л",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": "О",
+          "question": null,
+          "way": null
+        },
+        {
+          "letter": null,
+          "question": "Нота",
+          "way": null
+        },
+        {
+          "letter": "Р",
+          "question": null,
+          "way": ["8"]
+        },
+        {
+          "letter": "Е",
+          "question": null,
+          "way": null
         }
       ]
     }
